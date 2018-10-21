@@ -12,7 +12,7 @@ public class GridManager : ScriptableObject {
     public GameObject PlatformObject;
     public GameObject PlatformHolder;
 
-    public List<Platform> StartingGrid;
+    private Platform[] StartingGrid;
 
     public Dictionary<Vector3, Platform> Grid;
 
@@ -21,10 +21,11 @@ public class GridManager : ScriptableObject {
     public void Setup()
     {
         Grid = new Dictionary<Vector3, Platform>();
+        StartingGrid = FindObjectsOfType<Platform>();
 
         foreach (var item in StartingGrid)
         {
-            Grid.Add(item.transform.position, item);
+            Grid.Add(item.transform.localPosition, item);
         }
     }
 
@@ -37,7 +38,12 @@ public class GridManager : ScriptableObject {
 
         direction *= PlatformEdgeSize;
 
-       
+        Debug.Log("newPlat:" + (pos + direction));
+
+        foreach (var item in Grid)
+        {
+            Debug.Log(item.Key);
+        }
 
         if(Grid.ContainsKey(pos + direction))
         {
@@ -86,7 +92,7 @@ public class GridManager : ScriptableObject {
 
 
                 float currentDot = Vector3.Dot(lookDir, lookDirection);
-                Debug.Log("PlayerDir: " + lookDirection + " PlatformDir: " + lookDir + " Dot: " + currentDot);
+                //Debug.Log("PlayerDir: " + lookDirection + " PlatformDir: " + lookDir + " Dot: " + currentDot);
                 if (currentDot > maxDot)
                 {
                     maxDot = currentDot;

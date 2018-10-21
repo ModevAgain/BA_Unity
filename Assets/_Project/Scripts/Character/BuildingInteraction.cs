@@ -9,7 +9,7 @@ public class BuildingInteraction : MonoBehaviour {
 
     public Platform _highlightedPlatform;
 
-    private bool _abortBuildAction;
+    private bool _buildAction;
     private bool waitingForAction;
 
     private void Start()
@@ -33,9 +33,9 @@ public class BuildingInteraction : MonoBehaviour {
         //}
     }
 
-    public void ReceiveBuildingOperation(bool abort)
+    public void ReceiveBuildingOperation(bool build)
     {
-        _abortBuildAction = abort;
+        _buildAction = build;
         waitingForAction = false;
     }
 
@@ -49,17 +49,32 @@ public class BuildingInteraction : MonoBehaviour {
     {
 
         waitingForAction = true;
-        
 
-        _highlightedPlatform = _gridManager.GetPlatformForHighlight(_playerRefs.CurrentPlatform.transform.localPosition, _playerRefs.LookDirection);
-        _highlightedPlatform.Highlight();
+
+        Vector3 lastPos = Vector3.zero;
+        Vector3 lastDir = Vector3.zero;
 
         while (waitingForAction)
         {
-            yield return null;
+            
+
+            if(lastPos != _playerRefs.CurrentPlatform.transform.localPosition ||lastDir != _playerRefs.LookDirection)
+            {
+
+                _highlightedPlatform?.Deactivate();            
+                _highlightedPlatform = _gridManager.GetPlatformForHighlight(_playerRefs.CurrentPlatform.transform.localPosition, _playerRefs.LookDirection);
+                _highlightedPlatform.Highlight();
+            }
+
+            lastPos = _playerRefs.CurrentPlatform.transform.localPosition;
+            lastDir = _playerRefs.LookDirection;
+
+            yield return new WaitForSeconds(0.2f);
+
+
         }
 
-        if (_abortBuildAction)
+        if (!_buildAction)
         {
             _highlightedPlatform.Deactivate();
         }
@@ -67,5 +82,7 @@ public class BuildingInteraction : MonoBehaviour {
         {
             _highlightedPlatform.Activate();
         }
+
+        _highlightedPlatform = null;
     }
 }

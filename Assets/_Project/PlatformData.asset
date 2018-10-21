@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Name: PlatformData
   m_EditorClassIdentifier: 
   HighlightMat: {fileID: 2100000, guid: 70af11ab8e43b9e488269c795086aed5, type: 2}
+  RedHighlightMat: {fileID: 2100000, guid: 257b976791f358d43b3409a6db309f79, type: 2}
   NormalMat: {fileID: 2100000, guid: cfea6015e4c81e64aba273e0a16531f1, type: 2}

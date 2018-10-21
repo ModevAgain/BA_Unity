@@ -15,4 +15,3 @@ MonoBehaviour:
   PlatformObject: {fileID: 1865502606771206, guid: c400523a0d7b8254fbde7637f52fd056,
     type: 2}
   PlatformHolder: {fileID: 0}
-  StartingGrid: []

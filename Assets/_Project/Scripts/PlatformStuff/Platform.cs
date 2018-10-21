@@ -5,7 +5,7 @@ using UnityEngine;
 public class Platform : MonoBehaviour {
 
     [Header("Properties")]
-    public bool Acivated;
+    public bool Activated;
 
 
     private PlatformData _platformData;
@@ -18,15 +18,23 @@ public class Platform : MonoBehaviour {
         _ren = GetComponent<MeshRenderer>();
         _col = GetComponent<Collider>();
 
-        if(!Acivated)
+        if(!Activated)
             _ren.material = _platformData.HighlightMat;
 
     }
 
     public void Highlight()
     {
-        _col.enabled = false;
-        _ren.material = _platformData.HighlightMat;
+
+        if (Activated)
+        {
+            _ren.material = _platformData.RedHighlightMat;
+        }
+        else
+        {
+            _col.enabled = false;   
+            _ren.material = _platformData.HighlightMat;
+        }
         _ren.enabled = true;
     }
 
@@ -38,9 +46,16 @@ public class Platform : MonoBehaviour {
 
     public void Deactivate()
     {
-        _col.enabled = false;
-        _ren.enabled = false;
-        _ren.material = _platformData.HighlightMat;
+        if (Activated)
+        {
+            _ren.material = _platformData.NormalMat;
+        }
+        else
+        {
+            _col.enabled = false;
+            _ren.enabled = false;
+            _ren.material = _platformData.HighlightMat;
+        }
     }
 
 }

@@ -6,15 +6,7 @@ using UnityEngine;
 public class PlatformData : ScriptableObject {
 
     public Material HighlightMat;
+    public Material RedHighlightMat;
     public Material NormalMat;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
