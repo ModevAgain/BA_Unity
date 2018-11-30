@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BuildingInteraction : MonoBehaviour {
 
@@ -84,5 +85,7 @@ public class BuildingInteraction : MonoBehaviour {
         }
 
         _highlightedPlatform = null;
+
+        
     }
 }

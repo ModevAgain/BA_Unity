@@ -7,10 +7,14 @@ using DG.Tweening;
 
 public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
 
+    public bool MOBILE;
+
     public CanvasGroup ActionGroup;
 
     public ActionUI Action_1;
     public ActionUI Action_2;
+
+    public EventCatcher BGCatcher;
 
     public Sprite BuildSprite;
     public Sprite AbortSprite;
@@ -26,10 +30,11 @@ public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
     {
         if (_active)
             return;
-        _builder.StartBuildingProcess();
 
-        _img.DOFade(0, 0.3f);
-        ActionGroup.transform.DOScale(1, 0.3f);
+
+        _active = true;
+        _img.DOFade(0, 0f);
+        ActionGroup.transform.DOScale(1, 0.05f);
     }
 
     // Use this for initialization
@@ -41,24 +46,39 @@ public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
 
         Action_1.Trigger = () => 
         {
-            ActionGroup.transform.DOScale(0, 0.2f);
-            _img.DOFade(1, 0.2f);
-            _builder.ReceiveBuildingOperation(false);
+            if (_selected)
+                Build(true);
+            else
+            {
+                _currentSelectedAction = Action_1;
+                SelectAction();
+            }
         };
         Action_2.Trigger = () =>
         {
-            ActionGroup.transform.DOScale(0, 0.2f);
-            _img.DOFade(1, 0.2f);
-            _builder.ReceiveBuildingOperation(true);
-            _active = false;
-        } ;
+            if (_selected)
+                Build(true);
+            else
+            {
+                _currentSelectedAction = Action_2;
+                SelectAction();
+            }
+        };
+
+        BGCatcher.OnUpAction = () =>
+        {
+            if (!_selected)
+                ResetToNormal();
+        };
 
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        //If not mobile
+        if (MOBILE)
+            return;
+
         GamepadInteractionInUpdate();
 
 
@@ -142,11 +162,32 @@ public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
     {
         _selected = true;
 
+        if (_currentSelectedAction == Action_1)
+        {
+            Action_1.SetConfirmSprite();
+            Action_2.Hide();
+        }
+        else
+        {
+            Action_2.SetConfirmSprite();
+            Action_1.Hide();
+        }
+
         _img.sprite = AbortSprite;
         _img.DOFade(1, 0.05f);
 
-        ActionGroup.transform.DOScale(0, 0.1f);
+        //ActionGroup.transform.DOScale(0, 0.1f);
 
         _builder.StartBuildingProcess();
+    }
+
+    public void ResetToNormal()
+    {
+        ActionGroup.transform.DOScale(0, 0.1f);
+        _img.sprite = BuildSprite;
+        _img.DOFade(1, 0.05f);
+        _selected = false;
+        _active = false;
+
     }
 }

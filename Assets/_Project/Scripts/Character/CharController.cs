@@ -9,13 +9,11 @@ public class CharController : MonoBehaviour {
 
     private Vector3 camOffset;
 
-    private Joystick _joystick;
     [SerializeField]
     private bool _onMobile;
 
     private void Awake()
     {
-        _joystick = FindObjectOfType<Joystick>();
 
 #if UNITY_ANDROID || UNITY_IOS
 
@@ -36,7 +34,7 @@ public class CharController : MonoBehaviour {
 
         if (_onMobile)
         {
-            inputVector = GetVirtualJoystickInput();
+            
         }
         else
         {
@@ -62,13 +60,5 @@ public class CharController : MonoBehaviour {
 
         Camera.main.transform.position = camPos;
 
-    }
-
-    public Vector3 GetVirtualJoystickInput()
-    {
-        float x = _joystick.Horizontal;
-        float y = _joystick.Vertical;
-
-        return new Vector3(x, 0, y);
     }
 }
