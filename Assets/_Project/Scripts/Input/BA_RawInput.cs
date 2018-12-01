@@ -62,6 +62,17 @@ namespace BA
 
         #endregion
 
+
+        #region Private Cached Values
+
+        private float _cachedX_Left;
+        private float _cachedY_Left;
+        private float _cachedX_Right;
+        private float _cachedY_Right;
+
+
+        #endregion
+
         public void Update()
         {
 
@@ -122,11 +133,26 @@ namespace BA
 
             #region Gamepad Input
 
-            Gamepad_Axis_Left_X(Input.GetAxis("Horizontal"));
-            Gamepad_Axis_Left_Y(Input.GetAxis("Vertical"));
 
-            Gamepad_Axis_Right_X(Input.GetAxis("Horizontal_2"));
-            Gamepad_Axis_Right_Y(Input.GetAxis("Vertical_2"));
+            //float leftX = Input.GetAxis("Horizontal");
+            //if(leftX != _cachedX_Left)
+                Gamepad_Axis_Left_X(Input.GetAxis("Horizontal")/*_cachedX_Left = leftX*/);
+
+            //float leftY = Input.GetAxis("Vertical");
+            //if (leftY != _cachedY_Left)
+                Gamepad_Axis_Left_Y(Input.GetAxis("Vertical")/*_cachedY_Left = leftY*/);
+
+            //float leftX = Input.GetAxis("Horizontal");
+            //if (leftX != _cachedX_Left)
+            //    Gamepad_Axis_Left_X(_cachedX_Left = leftX);
+
+            //float leftX = Input.GetAxis("Horizontal");
+            //if (leftX != _cachedX_Left)
+            //    Gamepad_Axis_Left_X(_cachedX_Left = leftX);
+
+
+            //Gamepad_Axis_Right_X(Input.GetAxis("Horizontal_2"));
+            //Gamepad_Axis_Right_Y(Input.GetAxis("Vertical_2"));
 
             if (Input.GetButtonDown("Gamepad_0"))
                 Gamepad_0_Down();
