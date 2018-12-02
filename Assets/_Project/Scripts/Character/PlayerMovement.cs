@@ -40,6 +40,13 @@ public class PlayerMovement : MonoBehaviour {
     
     private void MoveVector2(Vector2 inputPos)
     {
+
+        //No Input
+        if (inputPos == Vector2.zero)
+            return;
+
+        _agent.enabled = false;
+
         Vector3 inputVectorOrtho = new Vector3(inputPos.x, 0, inputPos.y);
 
         _direction = transform.position + inputVectorOrtho;
@@ -50,6 +57,8 @@ public class PlayerMovement : MonoBehaviour {
 
     private void MoveVector3(Vector3 inputPos)
     {
+
+        _agent.enabled = true;
 
         Ray ray = Camera.main.ScreenPointToRay(inputPos);
 

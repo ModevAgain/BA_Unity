@@ -104,10 +104,10 @@ namespace BA
             //Touch 0
             if (Input.touchCount > 0)
             {
+                Touch_0(Input.GetTouch(0));
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     Touch_0_Down();
-                    Touch_0(Input.GetTouch(0));
                 }
                 else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
@@ -118,10 +118,10 @@ namespace BA
             //Touch 1
             if (Input.touchCount > 1)
             {
+                Touch_1(Input.GetTouch(1));
                 if (Input.GetTouch(1).phase == TouchPhase.Began)
                 {
                     Touch_1_Down();
-                    Touch_1(Input.GetTouch(1));
                 }
                 else if (Input.GetTouch(1).phase == TouchPhase.Ended)
                 {

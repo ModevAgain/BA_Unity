@@ -12,7 +12,7 @@ namespace BA
     {
 
         [Header("Scene References")]
-
+        private BA_InputModule _inputModule;
 
         [Header("Input References")]
         public BA_RawInput RawInput;
@@ -23,9 +23,12 @@ namespace BA
         public delegate void InputDelegate();
         public delegate void InputDelegateVector2(Vector2 v);
         public delegate void InputDelegateVector3(Vector3 v);
+        public delegate void InputDelegatePointerEvent(PointerEventData ped);
 
         public InputDelegateVector2 MoveInputVector2;
         public InputDelegateVector3 MoveInputVector3;
+        public InputDelegatePointerEvent MouseInputUI; 
+
 
 
         #endregion
@@ -54,9 +57,9 @@ namespace BA
 
             if(type == BA_InputType.MOUSE_0_DOWN || type == BA_InputType.TOUCH_0_DOWN)
             {
-                _ped = new PointerEventData(EventSystem.current);
-                _ped.position = _pointerPosition;
-                _raycastResults.Clear();
+                _ped = _inputModule.GetLastPointerEventData();
+
+                _raycastResults.Clear();                
 
                 _gRaycaster.Raycast(_ped, _raycastResults);
 
@@ -64,6 +67,11 @@ namespace BA
                 if (_raycastResults.Count == 0)
                 {
                     MoveInputVector3(_pointerPosition);
+                }
+                //Delegate to UI Input Receiver
+                else
+                {
+                    MouseInputUI(_ped);
                 }
             }
         }
@@ -132,6 +140,37 @@ namespace BA
 
         public void Initialize()
         {
+
+            #region RESET
+            RawInput.Mouse_0_Down = null;
+            RawInput.Mouse_0_Up = null;
+            RawInput.Mouse_Position = null;
+
+            RawInput.Keyboard_0_Down = null;
+            RawInput.Keyboard_0_Up = null;
+            RawInput.Keyboard_1_Down = null;
+            RawInput.Keyboard_1_Up = null;
+
+            RawInput.Touch_0 = null;
+            RawInput.Touch_0_Down = null;
+            RawInput.Touch_0_Up = null;
+            RawInput.Touch_1 = null;
+            RawInput.Touch_1_Down = null;
+            RawInput.Touch_1_Up = null;
+
+            RawInput.Gamepad_0_Down = null;
+            RawInput.Gamepad_0_Up = null;
+            RawInput.Gamepad_1_Down = null;
+            RawInput.Gamepad_1_Up = null;
+
+            RawInput.Gamepad_Axis_Left_X = null;
+            RawInput.Gamepad_Axis_Left_Y = null;
+
+            RawInput.Gamepad_Axis_Right_X = null;
+            RawInput.Gamepad_Axis_Right_Y = null;
+
+            #endregion
+
             //Mouse & Keyboard
 
             RawInput.Mouse_0_Down += () => ReceiveInput(BA_InputType.MOUSE_0_DOWN);
@@ -145,9 +184,10 @@ namespace BA
             RawInput.Keyboard_1_Up += () => ReceiveInput(BA_InputType.KEYBOARD_1_UP);
 
             //Touch
+           
+            RawInput.Touch_0 += (t) => ReceiveInputTouch(t, BA_InputType.TOUCH_0);
             RawInput.Touch_0_Down += () => ReceiveInput(BA_InputType.TOUCH_0_DOWN);
             RawInput.Touch_0_Up += () => ReceiveInput(BA_InputType.TOUCH_0_UP);
-            RawInput.Touch_0 += (t) => ReceiveInputTouch(t, BA_InputType.TOUCH_0);
 
             //Gamepad
 
@@ -171,6 +211,9 @@ namespace BA
             _gRaycaster = FindObjectOfType<GraphicRaycaster>();
             _raycastResults = new List<RaycastResult>();
             _ped = new PointerEventData(EventSystem.current);
+
+            //InputModule
+            _inputModule = FindObjectOfType<BA_InputModule>();
 
         }
 
@@ -211,7 +254,6 @@ namespace BA
 
             //Raycasting
             _raycastResults.Clear();
-            _ped.Reset();
         }
 
 

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UpdateHandler : MonoBehaviour {
 
     private IUpdatable[] _updatables;
-
+    public bool Data;
     
     void Awake ()
     {
@@ -29,6 +30,8 @@ public class UpdateHandler : MonoBehaviour {
         {
             _updatables[i].Update();
 
-        }        
+        }
+
+        //Data = (EventSystem.current.currentInputModule as BA.BA_InputModule).GetPointerData();
     }
 }
