@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace BA
 {
+    /// <summary>
+    /// 1st Level Module
+    /// 
+    /// Captures all raw input.
+    /// </summary>
 
     [CreateAssetMenu(fileName = "RawInput", menuName = "Input/RawInput", order = 1)]
     public class BA_RawInput : ScriptableObject, IUpdatable

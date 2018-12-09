@@ -11,7 +11,7 @@ public class InitializationHandler : MonoBehaviour {
 
     void Awake () {
 
-        List<ScriptableObject> objs = Resources.FindObjectsOfTypeAll<ScriptableObject>().ToList();
+        List<ScriptableObject> objs = Resources.LoadAll<ScriptableObject>("").ToList();
         _initializables = new List<IInitializable>();
         foreach (var item in objs)
         {

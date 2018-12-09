@@ -10,12 +10,11 @@ namespace BA
     {
         PointerEventData ped;
 
-        public PointerEventData GetLastPointerEventData()
-        {
-            //PointerEventData ped;
+        
 
-            //bool exists = GetPointerData(0,out ped,true);
-            return GetLastPointerEventData(-1);
+        public PointerEventData GetLastPointerEventDataCustom(int id = -1)
+        {
+                return GetLastPointerEventData(id);
         }
 
         public bool GetPointerData()

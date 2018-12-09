@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace BA
 {
+    /// <summary>
+    /// Input model for defined Keys & Actions
+    /// 
+    /// <para>
+    /// Used by InputContext for defining valid input Contexts.
+    /// </para>
+    /// </summary>
+
     [System.Serializable]
     public class BA_Input
     {

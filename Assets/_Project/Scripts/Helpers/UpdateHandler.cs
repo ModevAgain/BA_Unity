@@ -12,7 +12,7 @@ public class UpdateHandler : MonoBehaviour {
     void Awake ()
     {
 
-        List<ScriptableObject> objs = Resources.FindObjectsOfTypeAll<ScriptableObject>().ToList();
+        List<ScriptableObject> objs = Resources.LoadAll<ScriptableObject>("").ToList();
         List<IUpdatable> tempUpdatables = new List<IUpdatable>();
         foreach (var item in objs)
         {

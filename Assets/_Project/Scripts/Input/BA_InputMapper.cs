@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,6 +8,14 @@ using static BA.BA_Input;
 
 namespace BA
 {
+    /// <summary>
+    /// 2nd level module
+    /// <para>
+    /// Hooks on raw input events from 1st level module and processes it.
+    /// Throws input events for 3rd level module depending on valid contexts.
+    /// </para>
+    /// </summary>
+
     [CreateAssetMenu(fileName = "InputMapper", menuName = "Input/InputMapper", order = 0)]
     public class BA_InputMapper : ScriptableObject, IInitializable
     {
@@ -27,7 +36,9 @@ namespace BA
 
         public InputDelegateVector2 MoveInputVector2;
         public InputDelegateVector3 MoveInputVector3;
-        public InputDelegatePointerEvent MouseInputUI; 
+        public InputDelegatePointerEvent MouseInputUI;
+        public InputDelegatePointerEvent TouchInputUI;
+        public InputDelegate ActionKey;
 
 
 
@@ -48,6 +59,8 @@ namespace BA
         private Vector2 _gamepadLeft;
         private Vector2 _gamepadRight;
 
+        private int _currentFingerID;
+
         #region InputReceiver
 
         public void ReceiveInput(BA_InputType type)
@@ -57,9 +70,17 @@ namespace BA
 
             if(type == BA_InputType.MOUSE_0_DOWN || type == BA_InputType.TOUCH_0_DOWN)
             {
-                _ped = _inputModule.GetLastPointerEventData();
 
-                _raycastResults.Clear();                
+                int pointerID = type == BA_InputType.MOUSE_0_DOWN ? -1 : _currentFingerID;
+
+                _ped = _inputModule.GetLastPointerEventDataCustom(pointerID);
+
+                if (_ped == null)
+                    Debug.Log("ped is null in mouse/touch down");
+
+                _raycastResults.Clear();
+
+                //Debug.Log(_ped);
 
                 _gRaycaster.Raycast(_ped, _raycastResults);
 
@@ -71,8 +92,40 @@ namespace BA
                 //Delegate to UI Input Receiver
                 else
                 {
-                    MouseInputUI(_ped);
+                    if (type == BA_InputType.MOUSE_0_DOWN)
+                        MouseInputUI(_ped);
+                    else TouchInputUI(_ped);
+
                 }
+            }
+            else if(type == BA_InputType.TOUCH_0_UP)
+            {
+
+                _ped = new PointerEventData(EventSystem.current);
+                _ped.position = _pointerPosition;
+                //_ped = _inputModule.GetLastPointerEventDataCustom(_currentFingerID);
+
+                if (_ped == null)
+                {
+                    Debug.Log("ped is null in touch up");
+                    Debug.Log("fingerID: " + _currentFingerID);
+                }
+
+                _raycastResults.Clear();
+
+                _gRaycaster.Raycast(_ped, _raycastResults);
+
+                foreach (var result in _raycastResults)
+                {
+                    if (result.gameObject.GetComponent<BA_BaseUIElement>() != null)
+                        _ped.pointerEnter = result.gameObject;
+                }
+
+                TouchInputUI(_ped);
+            }
+            else if(type == BA_InputType.GAMEPAD_0_DOWN ||type == BA_InputType.KEYBOARD_0_DOWN)
+            {
+                ActionKey?.Invoke();
             }
         }
 
@@ -91,6 +144,9 @@ namespace BA
                 return;
 
             _pointerPosition = t.position;
+            _currentFingerID = t.fingerId;
+            
+            //Debug.Log("fingerID" + t.fingerId);
 
         }
 
@@ -132,6 +188,15 @@ namespace BA
             }
 
             return false;
+        }
+
+        #endregion
+
+        #region ContextManaging
+
+        public void LoadContexts(List<BA_InputGroup> validInputGroups)
+        {
+            _activeContexts = Contexts.Where((context) => validInputGroups.Contains(context.Group)).ToList();
         }
 
         #endregion
@@ -208,7 +273,7 @@ namespace BA
 
 
             //Raycasting
-            _gRaycaster = FindObjectOfType<GraphicRaycaster>();
+            _gRaycaster = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<GraphicRaycaster>();
             _raycastResults = new List<RaycastResult>();
             _ped = new PointerEventData(EventSystem.current);
 

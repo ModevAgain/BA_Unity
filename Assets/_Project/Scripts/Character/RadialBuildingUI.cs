@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using BA;
 
-public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
+public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public bool MOBILE;
 
@@ -26,14 +27,33 @@ public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
     private bool _selected;
     private ActionUI _currentSelectedAction;
 
-    public void OnPointerDown(PointerEventData eventData)
+
+    #region BA_Input
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        BuildMenu();
+    }
+
+    public void BuildMenu()
+    {
+        Debug.Log("BuildMenu | active =  " + _active);
+
+        if (!_active)
+            OnPointerDown();
+        else ResetToNormal();
+    }
+
+    #endregion
+
+    public void OnPointerDown(/*PointerEventData eventData*/)
     {
         if (_active)
             return;
 
 
         _active = true;
-        _img.DOFade(0, 0f);
+        _img.DOFade(0.5f, 0f);
         ActionGroup.transform.DOScale(1, 0.05f);
     }
 
@@ -65,24 +85,31 @@ public class RadialBuildingUI : MonoBehaviour, IPointerDownHandler {
             }
         };
 
-        BGCatcher.OnUpAction = () =>
-        {
-            if (!_selected)
-                ResetToNormal();
-        };
+        //BGCatcher.OnUpAction = () =>
+        //{
+        //    if (!_selected)
+        //        ResetToNormal();
+        //};
+
+        BA_InputReceiverUI.Instance.BuildingMenu += BuildMenu;
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnApplicationQuit()
+    {
+        BA_InputReceiverUI.Instance.BuildingMenu -= BuildMenu;
+    }
+
+    // Update is called once per frame
+    void Update () {
 
         if (MOBILE)
             return;
 
-        GamepadInteractionInUpdate();
+        //GamepadInteractionInUpdate();
 
 
-        if(_active && _selected)
+        if (_active && _selected)
         {
             if (Input.GetButtonDown("A"))
             {
