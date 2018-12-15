@@ -8,7 +8,8 @@ using BA;
 
 public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
-    public bool MOBILE;
+    public BA_InputMapper InputMapper;
+
 
     public CanvasGroup ActionGroup;
 
@@ -26,36 +27,6 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     private bool _active;
     private bool _selected;
     private ActionUI _currentSelectedAction;
-
-
-    #region BA_Input
-
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        BuildMenu();
-    }
-
-    public void BuildMenu()
-    {
-        Debug.Log("BuildMenu | active =  " + _active);
-
-        if (!_active)
-            OnPointerDown();
-        else ResetToNormal();
-    }
-
-    #endregion
-
-    public void OnPointerDown(/*PointerEventData eventData*/)
-    {
-        if (_active)
-            return;
-
-
-        _active = true;
-        _img.DOFade(0.5f, 0f);
-        ActionGroup.transform.DOScale(1, 0.05f);
-    }
 
     // Use this for initialization
     void Start () {
@@ -85,105 +56,119 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             }
         };
 
-        //BGCatcher.OnUpAction = () =>
-        //{
-        //    if (!_selected)
-        //        ResetToNormal();
-        //};
-
-        BA_InputReceiverUI.Instance.BuildingMenu += BuildMenu;
+        BA_InputReceiverUI.Instance.ActionKey += BuildMenu;
+        BA_InputReceiverUI.Instance.ActionKey2 += ReceiveBuildCommand;
+        BA_InputReceiverUI.Instance.ActionDirectional += ReceiveDirectionalInput;
+        InputMapper.MoveInputVector3 += ReceivePlatformCommand;
 
     }
 
-    private void OnApplicationQuit()
+    #region BA_Input
+
+    public override void OnPointerClick(PointerEventData eventData)
     {
-        BA_InputReceiverUI.Instance.BuildingMenu -= BuildMenu;
+        BuildMenu();
     }
 
-    // Update is called once per frame
-    void Update () {
-
-        if (MOBILE)
-            return;
-
-        //GamepadInteractionInUpdate();
-
-
-        if (_active && _selected)
+    public void BuildMenu()
+    {
+        
+        if (!_active)
         {
-            if (Input.GetButtonDown("A"))
+            _active = true;
+            OnPointerDown();
+            SelectAction();
+        }
+        else
+        {
+            _active = false;
+            Build(false);
+            ResetToNormal();
+        }
+    }
+
+    public void ReceiveBuildCommand()
+    {
+        Build(true);
+    }
+
+    public void ReceivePlatformCommand(Vector3 input)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(input);
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit, 1 << 11))
+        {
+            if(hit.transform.GetComponent<Platform>() == _builder.GetCurrentPlatform())
             {
                 Build(true);
             }
-            if (Input.GetButtonDown("B"))
-            {
-                Build(false);
-            }
         }
     }
+
+    #endregion
+
+    public void OnPointerDown(/*PointerEventData eventData*/)
+    {
+        if (_active)
+            return;
+
+
+        _active = true;
+        _img.DOFade(0.5f, 0f);
+        ActionGroup.transform.DOScale(1, 0.05f);
+    }
+
+
+    private void OnApplicationQuit()
+    {
+        BA_InputReceiverUI.Instance.ActionKey -= BuildMenu;
+        BA_InputReceiverUI.Instance.ActionDirectional -= ReceiveDirectionalInput;
+        InputMapper.MoveInputVector3 -= ReceivePlatformCommand;
+    }
+
+
 
     public void Build(bool build)
     {
         _builder.ReceiveBuildingOperation(build);
 
-        
-        _img.DOFade(0, 0.15f).OnComplete(() =>
-        {
-            _img.sprite = BuildSprite;
-            _img.DOFade(1, 0.15f).OnComplete(() =>
-            {
-                _active = false;
-                _selected = false;
-            });
-        });
+        //if(!build)
+        //_img.DOFade(0, 0.15f).OnComplete(() =>
+        //{
+        //    _img.sprite = BuildSprite;
+        //    _img.DOFade(1, 0.15f).OnComplete(() =>
+        //    {
+        //        _active = false;
+        //        _selected = false;
+        //    });
+        //});
     }
 
-    public void GamepadInteractionInUpdate()
+    public void ReceiveDirectionalInput(Vector2 input)
     {
-        if (_selected)
-            return;
+        float angle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg;
 
-        if (Input.GetAxis("Horizontal_2") != 0 && !_active)
+        if (angle < 20 && angle > -45)
         {
-            _active = true;
-
-            _img.DOFade(0, 0f);
-            ActionGroup.transform.DOScale(1, 0.05f);
+            Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
+            Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
+            _currentSelectedAction = Action_1;
         }
-        else if (_active)
+        else if (angle < -45 && angle > -105)
+        {            
+            Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
+            Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
+            _currentSelectedAction = Action_2;
+        }
+        else
         {
-            float x = Input.GetAxis("Vertical_2");
-            float y = Input.GetAxis("Horizontal_2");
-
-            float angle = Mathf.Atan2(x,y) * Mathf.Rad2Deg;
-
-            if (angle < 180 && angle > 135)
-            {
-                Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
-                Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
-                _currentSelectedAction = Action_2;
-            }
-            else if (angle < 135 && angle > 90)
-            {
-                Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
-                Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
-                _currentSelectedAction = Action_1;
-            }
-            else
-            {
-                Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
-                Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
-            }
-
-            if(x == 0 && y == 0)
-            {                
-                _currentSelectedAction.OnPointerUp(new PointerEventData(EventSystem.current));
-
-                SelectAction();
-            }
-
+            Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
+            Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
         }
     }
+
 
     public void SelectAction()
     {

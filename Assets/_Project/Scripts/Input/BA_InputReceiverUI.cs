@@ -20,18 +20,17 @@ namespace BA
     public class BA_InputReceiverUI : ScriptableObject, IInitializable {
 
         public delegate void UIFunction();
+        public delegate void UIFunctionDirectional(Vector2 vec);
 
         [Header("References")]
         public BA_InputMapper InputMapper;
 
 
         //UI Meta Functions
-        public UIFunction BuildingMenu;
-        //public UIFunction HideBuildingMenu;
+        public UIFunction ActionKey;
+        public UIFunction ActionKey2;
+        public UIFunctionDirectional ActionDirectional;
 
-        public UIFunction HighlightOption;
-        public UIFunction DehighlightOption;
-        public UIFunction SelectOption;
 
 
         private void ReceiveMouseInput(PointerEventData ped)
@@ -48,12 +47,17 @@ namespace BA
 
         private void ReceiveActionkeyInput()
         {
-            BuildingMenu();
+            ActionKey();
+        }
+
+        private void ReceiveActionkey2Input()
+        {
+            ActionKey2();
         }
 
         private void ReceiveDirectionalInput(Vector2 dir)
         {
-
+            ActionDirectional(dir);
         }
 
         #region Initializable
@@ -68,6 +72,8 @@ namespace BA
             InputMapper.MouseInputUI += ReceiveMouseInput;
             InputMapper.TouchInputUI += ReceiveTouchInput;
             InputMapper.ActionKey += ReceiveActionkeyInput;
+            InputMapper.ActionKey_2 += ReceiveActionkey2Input;
+            InputMapper.DirectionalInputRightStick += ReceiveDirectionalInput;
 
             _instance = Instance;
         }
@@ -78,6 +84,8 @@ namespace BA
             InputMapper.MouseInputUI -= ReceiveMouseInput;
             InputMapper.TouchInputUI -= ReceiveTouchInput;
             InputMapper.ActionKey -= ReceiveActionkeyInput;
+            InputMapper.ActionKey_2 += ReceiveActionkey2Input;
+            InputMapper.DirectionalInputRightStick -= ReceiveDirectionalInput;
 
             _instance = null;
         }

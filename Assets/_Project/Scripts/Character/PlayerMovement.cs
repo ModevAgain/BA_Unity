@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour {
         InputMapper.MoveInputVector3 += MoveVector3;
 
 
-        FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+        //FindObjectOfType<NavMeshSurface>().BuildNavMesh();
         _target = Vector3.negativeInfinity;
         _agent = GetComponent<NavMeshAgent>();
         _rigid = GetComponent<Rigidbody>();
@@ -64,8 +64,12 @@ public class PlayerMovement : MonoBehaviour {
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000, 1 << 10))
+        if (Physics.Raycast(ray, out hit, 1000, 1 << 11))
         {
+
+            if (!hit.transform.GetComponent<Platform>().Activated)
+                return;
+
             _target = hit.point;
             _direction = (_target - transform.position).normalized;
         }

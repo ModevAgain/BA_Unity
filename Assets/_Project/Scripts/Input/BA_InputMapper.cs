@@ -32,13 +32,15 @@ namespace BA
         public delegate void InputDelegate();
         public delegate void InputDelegateVector2(Vector2 v);
         public delegate void InputDelegateVector3(Vector3 v);
-        public delegate void InputDelegatePointerEvent(PointerEventData ped);
+        public delegate void InputDelegatePointerEvent(PointerEventData ped);       
 
         public InputDelegateVector2 MoveInputVector2;
         public InputDelegateVector3 MoveInputVector3;
         public InputDelegatePointerEvent MouseInputUI;
         public InputDelegatePointerEvent TouchInputUI;
         public InputDelegate ActionKey;
+        public InputDelegate ActionKey_2;
+        public InputDelegateVector2 DirectionalInputRightStick;
 
 
 
@@ -56,7 +58,9 @@ namespace BA
         #endregion  
 
         private Vector3 _pointerPosition;
+        [SerializeField]        
         private Vector2 _gamepadLeft;
+        [SerializeField]
         private Vector2 _gamepadRight;
 
         private int _currentFingerID;
@@ -80,8 +84,6 @@ namespace BA
 
                 _raycastResults.Clear();
 
-                //Debug.Log(_ped);
-
                 _gRaycaster.Raycast(_ped, _raycastResults);
 
                 //Move
@@ -97,6 +99,14 @@ namespace BA
                     else TouchInputUI(_ped);
 
                 }
+            }
+            else if(type == BA_InputType.GAMEPAD_0_DOWN ||type == BA_InputType.KEYBOARD_0_DOWN)
+            {
+                ActionKey?.Invoke();
+            }
+            else if (type == BA_InputType.GAMEPAD_1_DOWN || type == BA_InputType.KEYBOARD_1_DOWN)
+            {
+                ActionKey_2?.Invoke();
             }
             else if(type == BA_InputType.TOUCH_0_UP)
             {
@@ -122,10 +132,6 @@ namespace BA
                 }
 
                 TouchInputUI(_ped);
-            }
-            else if(type == BA_InputType.GAMEPAD_0_DOWN ||type == BA_InputType.KEYBOARD_0_DOWN)
-            {
-                ActionKey?.Invoke();
             }
         }
 
@@ -173,6 +179,7 @@ namespace BA
             }
 
             MoveInputVector2(_gamepadLeft);
+            DirectionalInputRightStick(_gamepadRight);
 
         }
 

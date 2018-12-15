@@ -38,12 +38,12 @@ public class GridManager : ScriptableObject {
 
         direction *= PlatformEdgeSize;
 
-        Debug.Log("newPlat:" + (pos + direction));
+        //Debug.Log("newPlat:" + (pos + direction));
 
-        foreach (var item in Grid)
-        {
-            Debug.Log(item.Key);
-        }
+        //foreach (var item in Grid)
+        //{
+        //    //Debug.Log(item.Key);
+        //}
 
         if(Grid.ContainsKey(pos + direction))
         {
@@ -61,7 +61,7 @@ public class GridManager : ScriptableObject {
             Grid.Add(pos + direction, outPlatform);
             tempPlat.transform.localPosition = pos + direction;
             Vector3 tempVec = tempPlat.transform.localPosition / 5;
-            tempPlat.name = "Platform-" + tempVec.x + "" + tempVec.z;
+            tempPlat.name = "Platform ( " + tempVec.x + " | " + tempVec.z + " )" ;
         }
 
         return outPlatform;

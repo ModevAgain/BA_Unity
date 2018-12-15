@@ -138,35 +138,22 @@ namespace BA
 
             #region Gamepad Input
 
+            Gamepad_Axis_Left_X(Input.GetAxis("Horizontal"));
+            Gamepad_Axis_Left_Y(Input.GetAxis("Vertical"));
 
-            //float leftX = Input.GetAxis("Horizontal");
-            //if(leftX != _cachedX_Left)
-                Gamepad_Axis_Left_X(Input.GetAxis("Horizontal")/*_cachedX_Left = leftX*/);
+            Gamepad_Axis_Right_X(Input.GetAxis("Horizontal_2"));
+            Gamepad_Axis_Right_Y(Input.GetAxis("Vertical_2"));
 
-            //float leftY = Input.GetAxis("Vertical");
-            //if (leftY != _cachedY_Left)
-                Gamepad_Axis_Left_Y(Input.GetAxis("Vertical")/*_cachedY_Left = leftY*/);
-
-            //float leftX = Input.GetAxis("Horizontal");
-            //if (leftX != _cachedX_Left)
-            //    Gamepad_Axis_Left_X(_cachedX_Left = leftX);
-
-            //float leftX = Input.GetAxis("Horizontal");
-            //if (leftX != _cachedX_Left)
-            //    Gamepad_Axis_Left_X(_cachedX_Left = leftX);
-
-
-            //Gamepad_Axis_Right_X(Input.GetAxis("Horizontal_2"));
-            //Gamepad_Axis_Right_Y(Input.GetAxis("Vertical_2"));
-
-            if (Input.GetButtonDown("Gamepad_0"))
+            if (Input.GetKeyDown("joystick button 0"))
+            {
                 Gamepad_0_Down();
-            else if (Input.GetButtonUp("Gamepad_0"))
+            }
+            else if (Input.GetKeyUp("joystick button 0"))
                 Gamepad_0_Up();
 
-            if (Input.GetButtonDown("Gamepad_1"))
+            if (Input.GetKeyDown("joystick button 5"))
                 Gamepad_1_Down();
-            else if (Input.GetButtonUp("Gamepad_1"))
+            else if (Input.GetKeyUp("joystick button 5"))
                 Gamepad_1_Up();
 
             #endregion

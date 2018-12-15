@@ -11,12 +11,21 @@ public class BuildingInteraction : MonoBehaviour {
     public Platform _highlightedPlatform;
 
     private bool _buildAction;
-    private bool waitingForAction;
+    [SerializeField]
+    private bool _waitingForAction;
+    [SerializeField]
+    private bool _buildingMenuActive;
+
+    private Coroutine _buildingRoutine;
+    private NavMeshSurface _navSurface;
 
     private void Start()
     {
         _playerRefs = GetComponent<PlayerReferences>();
         _gridManager = DataPipe.instance.GridManager;
+
+        _navSurface = FindObjectOfType<NavMeshSurface>();
+        _navSurface.BuildNavMesh();
     }
 
 
@@ -26,65 +35,79 @@ public class BuildingInteraction : MonoBehaviour {
         {
             StartCoroutine(HighlightNewPlatform());
         }
+    }
 
-        //else if (Input.GetKeyUp(KeyCode.Space))
-        //{
-        //    _abortBuildAction = false;
-        //    waitingForAction = false;
-        //}
+    public Platform GetCurrentPlatform()
+    {
+        return _highlightedPlatform;
     }
 
     public void ReceiveBuildingOperation(bool build)
     {
-        _buildAction = build;
-        waitingForAction = false;
+        if (build)
+        {
+            
+            _buildAction = build;
+            _waitingForAction = false;
+        }
+        else
+        {
+            _highlightedPlatform.Deactivate();
+            _buildAction = build;
+            _waitingForAction = false;
+            _buildingMenuActive = false;
+
+        }
     }
 
     public void StartBuildingProcess()
     {
-        StartCoroutine(HighlightNewPlatform());
-    }
+        _buildingMenuActive = true;
 
+        if (_buildingRoutine != null)
+            StopCoroutine(_buildingRoutine);
+        _buildingRoutine = StartCoroutine(HighlightNewPlatform());
+    }
 
     public IEnumerator HighlightNewPlatform()
     {
 
-        waitingForAction = true;
+        _waitingForAction = true;
 
 
         Vector3 lastPos = Vector3.zero;
         Vector3 lastDir = Vector3.zero;
-
-        while (waitingForAction)
+        while (_buildingMenuActive)
         {
-            
+            while (_waitingForAction)
+            {            
+                if(lastPos != _playerRefs.CurrentPlatform.transform.localPosition ||lastDir != _playerRefs.LookDirection)
+                {
 
-            if(lastPos != _playerRefs.CurrentPlatform.transform.localPosition ||lastDir != _playerRefs.LookDirection)
-            {
+                    _highlightedPlatform?.Deactivate();            
+                    _highlightedPlatform = _gridManager.GetPlatformForHighlight(_playerRefs.CurrentPlatform.transform.localPosition, _playerRefs.LookDirection);
+                    _highlightedPlatform.Highlight();
+                }
 
-                _highlightedPlatform?.Deactivate();            
-                _highlightedPlatform = _gridManager.GetPlatformForHighlight(_playerRefs.CurrentPlatform.transform.localPosition, _playerRefs.LookDirection);
-                _highlightedPlatform.Highlight();
+                lastPos = _playerRefs.CurrentPlatform.transform.localPosition;
+                lastDir = _playerRefs.LookDirection;
+
+                yield return new WaitForSeconds(0.2f);
+
+
             }
 
-            lastPos = _playerRefs.CurrentPlatform.transform.localPosition;
-            lastDir = _playerRefs.LookDirection;
+            if (_buildAction)
+            {
+                _highlightedPlatform?.Activate();
+                _waitingForAction = true;
+                _navSurface.BuildNavMesh();
+            }
 
-            yield return new WaitForSeconds(0.2f);
+            _highlightedPlatform = null;
 
-
+            yield return null;
         }
-
-        if (!_buildAction)
-        {
-            _highlightedPlatform.Deactivate();
-        }
-        else
-        {
-            _highlightedPlatform.Activate();
-        }
-
-        _highlightedPlatform = null;
 
         
     }

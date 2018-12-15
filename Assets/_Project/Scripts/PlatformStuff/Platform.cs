@@ -28,11 +28,11 @@ public class Platform : MonoBehaviour {
 
         if (Activated)
         {
-            _ren.material = _platformData.RedHighlightMat;
+            //_ren.material = _platformData.RedHighlightMat;
         }
         else
         {
-            _col.enabled = false;   
+            //_col.enabled = false;   
             _ren.material = _platformData.HighlightMat;
         }
         _ren.enabled = true;
@@ -42,6 +42,7 @@ public class Platform : MonoBehaviour {
     {
         _col.enabled = true;
         _ren.material = _platformData.NormalMat;
+        Activated = true;
     }
 
     public void Deactivate()
@@ -52,7 +53,7 @@ public class Platform : MonoBehaviour {
         }
         else
         {
-            _col.enabled = false;
+            //_col.enabled = false;
             _ren.enabled = false;
             _ren.material = _platformData.HighlightMat;
         }
