@@ -2997,7 +2997,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RessourcePrefab: {fileID: 1333084573009696, guid: 08a62ec71bdfe5744ac48b6b5d250e76,
     type: 2}
-  SpawnTime: 0.4
+  SpawnTime: 1
+  ShouldSpawn: 1
 --- !u!4 &1497303704
 Transform:
   m_ObjectHideFlags: 0

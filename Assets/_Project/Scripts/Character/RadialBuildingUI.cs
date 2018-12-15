@@ -134,16 +134,6 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     {
         _builder.ReceiveBuildingOperation(build);
 
-        //if(!build)
-        //_img.DOFade(0, 0.15f).OnComplete(() =>
-        //{
-        //    _img.sprite = BuildSprite;
-        //    _img.DOFade(1, 0.15f).OnComplete(() =>
-        //    {
-        //        _active = false;
-        //        _selected = false;
-        //    });
-        //});
     }
 
     public void ReceiveDirectionalInput(Vector2 input)

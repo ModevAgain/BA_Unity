@@ -27,11 +27,7 @@ public class ResourceObject : MonoBehaviour {
 
     public IEnumerator PickUpAnimation()
     {
-        //Sequence seq = DOTween.Sequence();
-
-        //seq.Append(transform.DOPunchScale(transform.localScale * 2, 0.3f));
-
-        transform.DOPunchScale(transform.localScale * 2, 0.3f);
+        transform.DOPunchScale(transform.localScale, 0.5f);
 
 
         yield return new WaitForSeconds(0.15f);
@@ -40,17 +36,13 @@ public class ResourceObject : MonoBehaviour {
         _direction = _target.position - transform.position;
         _distanceSqr = _direction.sqrMagnitude;
 
-        Debug.Log(_distanceSqr);
 
         while(_distanceSqr> MinDistanceSqr)
         {
-            transform.position = Vector3.Lerp(transform.position, transform.position + _direction.normalized * Speed, 0f);
-            //yield return transform.DOMove(transform.position + _direction.normalized * Speed, 0.1f).WaitForCompletion();
-
+            transform.position = Vector3.Lerp(transform.position, _target.position, Time.deltaTime * Speed);     
+            yield return null;
             _direction = _target.position - transform.position;
             _distanceSqr = _direction.sqrMagnitude;
-
-            //yield return new WaitForSeconds(0.5f);
         }
         transform.DOKill();
         Destroy(gameObject);

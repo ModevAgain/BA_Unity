@@ -51,7 +51,10 @@ public class PlayerMovement : MonoBehaviour {
 
         _direction = transform.position + inputVectorOrtho;
         _rigid.MovePosition(transform.position + inputVectorOrtho * Time.deltaTime * SpeedForDirectMovement);
-        transform.LookAt(_direction);
+
+        if(transform.position + inputVectorOrtho * Time.deltaTime * SpeedForDirectMovement != transform.position)
+            transform.LookAt(_direction);
+        
 
     }
 
