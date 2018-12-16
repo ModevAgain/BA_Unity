@@ -18,6 +18,7 @@ public class BuildingInteraction : MonoBehaviour {
 
     private Coroutine _buildingRoutine;
     private NavMeshSurface _navSurface;
+    private int _currentBuildingOp;
 
     private void Start()
     {
@@ -60,8 +61,10 @@ public class BuildingInteraction : MonoBehaviour {
         }
     }
 
-    public void StartBuildingProcess()
+    public void StartBuildingProcess(int op)
     {
+        _currentBuildingOp = op;
+        Debug.Log("op: " + op);
         _buildingMenuActive = true;
 
         if (_buildingRoutine != null)
@@ -85,8 +88,8 @@ public class BuildingInteraction : MonoBehaviour {
                 {
 
                     _highlightedPlatform?.Deactivate();            
-                    _highlightedPlatform = _gridManager.GetPlatformForHighlight(_playerRefs.CurrentPlatform.transform.localPosition, _playerRefs.LookDirection);
-                    _highlightedPlatform.Highlight();
+                    _highlightedPlatform = _gridManager.GetPlatformForHighlight(_playerRefs.CurrentPlatform.transform.localPosition, _playerRefs.LookDirection, _currentBuildingOp);
+                    _highlightedPlatform.Highlight(_currentBuildingOp);
                 }
 
                 lastPos = _playerRefs.CurrentPlatform.transform.localPosition;

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using DG.Tweening;
 
-public class ActionUI : MonoBehaviour, IPointerEnterHandler,IPointerUpHandler, IPointerExitHandler/*, IPointerClickHandler*/ {
+public class ActionUI : BA_BaseUIElement{
 
     public Sprite Normal;
     public Sprite Confirm;
@@ -15,6 +15,7 @@ public class ActionUI : MonoBehaviour, IPointerEnterHandler,IPointerUpHandler, I
     private RectTransform _rect;
     private Image _img;
     private CanvasGroup _CG;
+    private bool _toggled;
 
     private void Start()
     {
@@ -23,25 +24,29 @@ public class ActionUI : MonoBehaviour, IPointerEnterHandler,IPointerUpHandler, I
         _CG = GetComponent<CanvasGroup>();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    
+    public override void OnPointerEnter(PointerEventData eventData)
     {
-        _rect.DOScale(1.15f, 0.15f);
+       // base.OnPointerEnter(eventData);
+       if(!_toggled)
+            _rect.DOScale(1.15f, 0.15f);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public override void OnPointerExit(PointerEventData eventData)
     {
-        _rect.DOScale(1f, 0.15f);
+        //base.OnPointerExit(eventData);
+
+        if(!_toggled)
+            _rect.DOScale(1f, 0.15f);
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+
+    public override void OnPointerClick(PointerEventData eventData)
     {
+        //base.OnPointerClick(eventData);
         Trigger.Invoke();
+        _toggled = true;
     }
-
-    //public void OnPointerClick(PointerEventData eventData)
-    //{
-    //    Trigger.Invoke();
-    //}
 
     public void SetConfirmSprite()
     {
@@ -60,11 +65,10 @@ public class ActionUI : MonoBehaviour, IPointerEnterHandler,IPointerUpHandler, I
         });
     }
 
-    public void Reset()
+    public void ResetVisualFuntionality()
     {
-        _CG.DOFade(1, 0.0f).OnComplete(() =>
-        {
-            _img.sprite = Normal;
-        });
+        _toggled = false;
+        OnPointerExit(new PointerEventData(EventSystem.current));
     }
+
 }

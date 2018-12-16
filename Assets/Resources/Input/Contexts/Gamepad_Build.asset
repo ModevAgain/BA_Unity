@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: Gamepad_Build
   m_EditorClassIdentifier: 
   Type: 2
-  Group: 0
+  Group: 2
   AllowedInputs: 110000001200000013000000140000000f00000010000000

@@ -23,9 +23,9 @@ public class InputSwapper : MonoBehaviour {
         MKToggle.onValueChanged.AddListener(SwapInputMK);
         TouchToggle.onValueChanged.AddListener(SwapInputTouch);
 
-        SwapInputGamepad(true);
-        SwapInputMK(true);
-        SwapInputTouch(true);
+        SwapInputGamepad(GamepadToggle.isOn);
+        SwapInputMK(MKToggle.isOn);
+        SwapInputTouch(TouchToggle.isOn);
 
 
     }

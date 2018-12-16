@@ -179,7 +179,8 @@ namespace BA
             }
 
             MoveInputVector2(_gamepadLeft);
-            DirectionalInputRightStick(_gamepadRight);
+            if(_gamepadRight != Vector2.zero)
+                DirectionalInputRightStick(_gamepadRight);
 
         }
 

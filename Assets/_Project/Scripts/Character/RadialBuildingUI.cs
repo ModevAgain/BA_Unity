@@ -27,6 +27,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     private bool _active;
     private bool _selected;
     private ActionUI _currentSelectedAction;
+    private int _buildingOp;
 
     // Use this for initialization
     void Start () {
@@ -37,23 +38,15 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         Action_1.Trigger = () => 
         {
-            if (_selected)
-                Build(true);
-            else
-            {
-                _currentSelectedAction = Action_1;
-                SelectAction();
-            }
+            Action_2.ResetVisualFuntionality();
+            _currentSelectedAction = Action_1;
+            SelectAction();
         };
         Action_2.Trigger = () =>
         {
-            if (_selected)
-                Build(true);
-            else
-            {
-                _currentSelectedAction = Action_2;
-                SelectAction();
-            }
+            Action_1.ResetVisualFuntionality();
+            _currentSelectedAction = Action_2;
+            SelectAction();           
         };
 
         BA_InputReceiverUI.Instance.ActionKey += BuildMenu;
@@ -75,9 +68,10 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         
         if (!_active)
         {
-            _active = true;
             OnPointerDown();
+            _currentSelectedAction = Action_1;
             SelectAction();
+            _active = true;
         }
         else
         {
@@ -140,17 +134,20 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     {
         float angle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg;
 
-        if (angle < 20 && angle > -45)
+        if (angle < 45 && angle > -45)
         {
             Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
             Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = Action_1;
+            SelectAction();
+            
         }
-        else if (angle < -45 && angle > -105)
+        else if (angle < -45 && angle > -145)
         {            
             Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
             Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = Action_2;
+            SelectAction();
         }
         else
         {
@@ -166,21 +163,15 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         if (_currentSelectedAction == Action_1)
         {
-            Action_1.SetConfirmSprite();
-            Action_2.Hide();
+            _buildingOp = 0;
         }
-        else
+        else if (_currentSelectedAction == Action_2)
         {
-            Action_2.SetConfirmSprite();
-            Action_1.Hide();
+            _buildingOp = 1;
         }
+        
 
-        _img.sprite = AbortSprite;
-        _img.DOFade(1, 0.05f);
-
-        //ActionGroup.transform.DOScale(0, 0.1f);
-
-        _builder.StartBuildingProcess();
+        _builder.StartBuildingProcess(_buildingOp);
     }
 
     public void ResetToNormal()

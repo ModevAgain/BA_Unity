@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Name: InputReceiverUI
   m_EditorClassIdentifier: 
   InputMapper: {fileID: 11400000, guid: ee9491d2c088b8c4bb0f53b9e204a311, type: 2}
+  ChacheFilterDirectionalInput: 1

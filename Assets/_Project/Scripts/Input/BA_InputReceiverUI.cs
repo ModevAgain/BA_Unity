@@ -31,6 +31,10 @@ namespace BA
         public UIFunction ActionKey2;
         public UIFunctionDirectional ActionDirectional;
 
+        public bool ChacheFilterDirectionalInput;
+
+        private Vector2 _directionInputCache;
+
 
 
         private void ReceiveMouseInput(PointerEventData ped)
@@ -57,7 +61,18 @@ namespace BA
 
         private void ReceiveDirectionalInput(Vector2 dir)
         {
-            ActionDirectional(dir);
+            if (ChacheFilterDirectionalInput)
+            {
+                if(dir != _directionInputCache)
+                {
+                    ActionDirectional(dir);
+                    _directionInputCache = dir;
+                }
+            }
+            else
+            {
+                ActionDirectional(dir);
+            }
         }
 
         #region Initializable

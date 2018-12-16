@@ -30,7 +30,7 @@ public class GridManager : ScriptableObject {
     }
 
    
-    public Platform GetPlatformForHighlight(Vector3 pos, Vector3 dir)
+    public Platform GetPlatformForHighlight(Vector3 pos, Vector3 dir, int buildingOp)
     {
         Platform outPlatform;
         
@@ -61,7 +61,7 @@ public class GridManager : ScriptableObject {
             Grid.Add(pos + direction, outPlatform);
             tempPlat.transform.localPosition = pos + direction;
             Vector3 tempVec = tempPlat.transform.localPosition / 5;
-            tempPlat.name = "Platform ( " + tempVec.x + " | " + tempVec.z + " )" ;
+            tempPlat.name = "Platform ( " + tempVec.x + " | " + tempVec.z + " )  Type: " + buildingOp;
         }
 
         return outPlatform;
