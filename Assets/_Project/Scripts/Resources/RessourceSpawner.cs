@@ -35,7 +35,7 @@ public class RessourceSpawner : MonoBehaviour {
 
 
             tempRess.GetComponentInChildren<ParticleSystem>().Play();
-            tempRess.transform.DOMoveY(0.25f, 2f).SetEase(Ease.Linear);
+            tempRess.transform.DOMoveY(0.656f, 2f).SetEase(Ease.Linear);
 
             yield return new WaitForSeconds(SpawnTime);
         }

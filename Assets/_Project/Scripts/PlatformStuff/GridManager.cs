@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,18 +15,18 @@ public class GridManager : ScriptableObject {
 
     private Platform[] StartingGrid;
 
-    public Dictionary<Vector3, Platform> Grid;
+    public Dictionary<HashableVector, Platform> Grid;
 
    
 
     public void Setup()
     {
-        Grid = new Dictionary<Vector3, Platform>();
+        Grid = new Dictionary<HashableVector, Platform>();
         StartingGrid = FindObjectsOfType<Platform>();
 
         foreach (var item in StartingGrid)
         {
-            Grid.Add(item.transform.localPosition, item);
+            Grid.Add(new HashableVector(item.transform.localPosition), item);
         }
     }
 
@@ -44,23 +45,26 @@ public class GridManager : ScriptableObject {
         //{
         //    //Debug.Log(item.Key);
         //}
+        HashableVector key = new HashableVector(pos + direction);
 
-        if(Grid.ContainsKey(pos + direction))
-        {
-            outPlatform = Grid[pos + direction];
-        }
-        else
-        {
-            outPlatform = null;
-        }
+        Grid.TryGetValue(key, out outPlatform);
+
+        //if(Grid.ContainsKey(key))
+        //{
+        //    outPlatform = Grid[key];
+        //}
+        //else
+        //{
+        //    outPlatform = null;
+        //}
 
         if(outPlatform == null)
         {
             GameObject tempPlat = Instantiate<GameObject>(PlatformObject, DataPipe.instance.PlatformHolder.transform);
             outPlatform = tempPlat.GetComponent<Platform>();
-            Grid.Add(pos + direction, outPlatform);
-            tempPlat.transform.localPosition = pos + direction;
-            Vector3 tempVec = tempPlat.transform.localPosition / 5;
+            Grid.Add(key, outPlatform);
+            tempPlat.transform.localPosition = key.GetVector();
+            Vector3 tempVec = tempPlat.transform.localPosition / PlatformEdgeSize;
             tempPlat.name = "Platform ( " + tempVec.x + " | " + tempVec.z + " )  Type: " + buildingOp;
         }
 
@@ -102,5 +106,47 @@ public class GridManager : ScriptableObject {
             return direction;
         }
     }
+
          
+}
+
+
+public class HashableVector : System.Object
+{
+    public int x;
+    public int y;
+    public int z;
+
+    public override int GetHashCode()
+    {
+        return this.x.GetHashCode() ^ this.y.GetHashCode() << 2 ^ this.z.GetHashCode() >> 2;
+    }
+
+    public HashableVector(Vector3 v)
+    {
+        this.x = (int)v.x;
+        this.y = (int)v.y;
+        this.z = (int)v.z;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(this, obj))
+            return true;
+ 
+        HashableVector other = obj as HashableVector;
+
+        if (ReferenceEquals(null, other))
+            return false;
+
+        if (other.x == this.x && other.y == this.y && other.z == this.z)
+            return true;
+
+        return false;
+    }
+
+    public Vector3 GetVector()
+    {
+        return new Vector3(x, y, z);
+    }
 }

@@ -19,11 +19,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a41cd2839b2ebe489ad04e368a05c21, type: 2}
   - {fileID: 11400000, guid: 027e6bed1cc503e459d9b672aaa8112b, type: 2}
   - {fileID: 11400000, guid: d1eefc5f364de08478e7d8f1cd6ef1bc, type: 2}
+  - {fileID: 11400000, guid: 0802f39dca04d03409f3c3f6a209a33d, type: 2}
   _activeContexts:
-  - {fileID: 11400000, guid: 5cebc069a792f3e429463183c16fca48, type: 2}
   - {fileID: 11400000, guid: 567542e2cfaeb6e4b99f817793d3d3fc, type: 2}
   - {fileID: 11400000, guid: 41d8a74dc5b39e94e94c2407c9b65365, type: 2}
   - {fileID: 11400000, guid: 6a41cd2839b2ebe489ad04e368a05c21, type: 2}
   - {fileID: 11400000, guid: 027e6bed1cc503e459d9b672aaa8112b, type: 2}
+  - {fileID: 11400000, guid: 0802f39dca04d03409f3c3f6a209a33d, type: 2}
   _gamepadLeft: {x: 0, y: 0}
   _gamepadRight: {x: 0, y: 0}
