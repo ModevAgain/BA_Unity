@@ -54,7 +54,7 @@ namespace BA
             ActionKey();
         }
 
-        private void ReceiveActionkey2Input()
+        private void ReceiveActionkey2Input(Vector2 input)
         {
             ActionKey2();
         }

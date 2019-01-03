@@ -20,12 +20,12 @@ public class PlayerShooting : MonoBehaviour {
     private Vector3 _projectileDirection;
     private float _distanceSqr;
     private Vector3 _backDirection;
-
+    private bool _projectileInProgress;
 
     // Use this for initialization
     void Start () {
 
-        InputMapper.ActionKey_2 += () => StartCoroutine(ShootProjectile());
+        InputMapper.ActionKey_2 += (dir) => StartCoroutine(ShootProjectile(dir));
         //InputMapper.mo
 
 
@@ -36,16 +36,22 @@ public class PlayerShooting : MonoBehaviour {
 		
 	}
 
-    public IEnumerator ShootProjectile()
+    public IEnumerator ShootProjectile(Vector2 direction)
     {
+        if (_projectileInProgress)
+            yield break;
+
+        _projectileInProgress = true;
+
         GameObject tempProjectile = Instantiate(Projectile);
         tempProjectile.transform.position = transform.position;
 
-        _projectileDirection = GetDirection();
+        _projectileDirection = GetDirection(direction);
         _projectileDirection.y = 0;
 
         //Debug.DrawLine(transform.position, transform.position + _projectileDirection * ProjectileDistance, Color.red, 5);
-        
+
+        tempProjectile.transform.DOLookAt(transform.position + _projectileDirection,0, up: tempProjectile.transform.up);
         yield return tempProjectile.transform.DOMove(transform.position + _projectileDirection * ProjectileDistance, ProjectileFlightTime).WaitForCompletion();
 
         yield return new WaitForSeconds(ProjectileStayTime);
@@ -57,21 +63,28 @@ public class PlayerShooting : MonoBehaviour {
         {
             tempProjectile.transform.position = Vector3.Lerp(tempProjectile.transform.position, transform.position, Time.deltaTime * ProjectileSpeed);
             yield return null;
+            tempProjectile.transform.LookAt(transform.position);
             _backDirection = tempProjectile.transform.position - transform.position;
             _distanceSqr = _backDirection.sqrMagnitude;
+            ProjectileSpeed *= 1.01f;
         }
 
         Destroy(tempProjectile);
+
+
+        _projectileInProgress = false;
     }
 
-    public Vector3 GetDirection()
+    public Vector3 GetDirection(Vector2 direction)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(direction);
+
+        //Debug.Log(direction);
 
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 1000, 1 << 10))
-        {           
+        {
             return (hit.point - transform.position).normalized;
         }
 

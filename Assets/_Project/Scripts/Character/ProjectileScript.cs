@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerResourceHandler : MonoBehaviour {
+public class ProjectileScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -16,8 +16,6 @@ public class PlayerResourceHandler : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Projectile")
-            return;
 
         other.GetComponent<ResourceObject>().GetPickedUp(transform);
     }

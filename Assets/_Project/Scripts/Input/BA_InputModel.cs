@@ -33,6 +33,7 @@ namespace BA
             TOUCH_0_DOWN,
             TOUCH_0_UP,
             TOUCH_0,
+            TOUCH_0_SWIPE,
 
             TOUCH_1_DOWN,
             TOUCH_1_UP,

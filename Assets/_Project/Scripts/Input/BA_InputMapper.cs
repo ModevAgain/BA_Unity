@@ -39,7 +39,7 @@ namespace BA
         public InputDelegatePointerEvent MouseInputUI;
         public InputDelegatePointerEvent TouchInputUI;
         public InputDelegate ActionKey;
-        public InputDelegate ActionKey_2;
+        public InputDelegateVector2 ActionKey_2;
         public InputDelegateVector2 DirectionalInputRightStick;
 
 
@@ -57,7 +57,7 @@ namespace BA
 
         #endregion  
 
-        private Vector3 _pointerPosition;
+        private Vector2 _pointerPosition;
         [SerializeField]        
         private Vector2 _gamepadLeft;
         [SerializeField]
@@ -80,7 +80,7 @@ namespace BA
                 _ped = _inputModule.GetLastPointerEventDataCustom(pointerID);
 
                 if (_ped == null)
-                    Debug.Log("ped is null in mouse/touch down");
+                    Debug.Log("ped is null in mouse/touch down || pointerID == " + pointerID);
 
                 _raycastResults.Clear();
 
@@ -104,9 +104,16 @@ namespace BA
             {
                 ActionKey?.Invoke();
             }
-            else if (type == BA_InputType.GAMEPAD_1_DOWN || type == BA_InputType.KEYBOARD_1_DOWN)
+            else if (type == BA_InputType.GAMEPAD_1_DOWN)
             {
-                ActionKey_2?.Invoke();
+                float gamepadToScreenPoint_x = (Screen.width / 2) + Screen.width * _gamepadRight.x;
+                float gamepadToScreenPoint_y = (Screen.height / 2) + Screen.height * _gamepadRight.y;
+
+                ActionKey_2?.Invoke(new Vector2(gamepadToScreenPoint_x, gamepadToScreenPoint_y));
+            }
+            else if(type == BA_InputType.KEYBOARD_1_DOWN)
+            {
+                ActionKey_2?.Invoke(_pointerPosition);
             }
             else if(type == BA_InputType.TOUCH_0_UP)
             {
@@ -135,13 +142,29 @@ namespace BA
             }
         }
 
-        public void ReceiveInputVector3(Vector3 vec, BA_InputType type)
+        public void ReceiveInputVector2(Vector2 vec, BA_InputType type)
+        {
+            if (!IsInputValid(type))
+                return;            
+
+            _pointerPosition = vec;
+                      
+        }
+
+        public void ReceiveInputSwipe(Vector2 start, Vector2 end, BA_InputType type)
         {
             if (!IsInputValid(type))
                 return;
 
-            _pointerPosition = vec;
-           
+            if (type == BA_InputType.TOUCH_0_SWIPE)
+            {
+
+                Vector2 direction = (end - start).normalized;
+                //Debug.Log("start: " + start + " |   end: " + end + " |  direction: " + direction);
+                Vector2 mappedDirection = new Vector2(Screen.width / 2 + Screen.width * direction.x, Screen.height / 2 + Screen.height * direction.y);
+                
+                ActionKey_2.Invoke(mappedDirection);
+            }
         }
 
         public void ReceiveInputTouch(Touch t, BA_InputType type)
@@ -248,7 +271,7 @@ namespace BA
 
             RawInput.Mouse_0_Down += () => ReceiveInput(BA_InputType.MOUSE_0_DOWN);
             RawInput.Mouse_0_Up += () => ReceiveInput(BA_InputType.MOUSE_0_UP);
-            RawInput.Mouse_Position += (v) => ReceiveInputVector3(v,BA_InputType.MOUSE_0_POS);
+            RawInput.Mouse_Position += (v) => ReceiveInputVector2(v,BA_InputType.MOUSE_0_POS);
 
             RawInput.Keyboard_0_Down += () => ReceiveInput(BA_InputType.KEYBOARD_0_DOWN);
             RawInput.Keyboard_0_Up += () => ReceiveInput(BA_InputType.KEYBOARD_0_UP);
@@ -261,6 +284,7 @@ namespace BA
             RawInput.Touch_0 += (t) => ReceiveInputTouch(t, BA_InputType.TOUCH_0);
             RawInput.Touch_0_Down += () => ReceiveInput(BA_InputType.TOUCH_0_DOWN);
             RawInput.Touch_0_Up += () => ReceiveInput(BA_InputType.TOUCH_0_UP);
+            RawInput.Swipe_0 += (s,e) => ReceiveInputSwipe(s, e, BA_InputType.TOUCH_0_SWIPE);
 
             //Gamepad
 
@@ -297,7 +321,7 @@ namespace BA
 
             RawInput.Mouse_0_Down -= () => ReceiveInput(BA_InputType.MOUSE_0_DOWN);
             RawInput.Mouse_0_Up -= () => ReceiveInput(BA_InputType.MOUSE_0_UP);
-            RawInput.Mouse_Position -= (v) => ReceiveInputVector3(v, BA_InputType.MOUSE_0_POS);
+            RawInput.Mouse_Position -= (v) => ReceiveInputVector2(v, BA_InputType.MOUSE_0_POS);
 
             RawInput.Keyboard_0_Down -= () => ReceiveInput(BA_InputType.KEYBOARD_0_DOWN);
             RawInput.Keyboard_0_Up -= () => ReceiveInput(BA_InputType.KEYBOARD_0_UP);
@@ -309,6 +333,7 @@ namespace BA
             RawInput.Touch_0_Down -= () => ReceiveInput(BA_InputType.TOUCH_0_DOWN);
             RawInput.Touch_0_Up -= () => ReceiveInput(BA_InputType.TOUCH_0_UP);
             RawInput.Touch_0 -= (t) => ReceiveInputTouch(t, BA_InputType.TOUCH_0);
+            RawInput.Swipe_0 -= (s,e) => ReceiveInputSwipe(s, e, BA_InputType.TOUCH_0_SWIPE);
 
             //Gamepad
 

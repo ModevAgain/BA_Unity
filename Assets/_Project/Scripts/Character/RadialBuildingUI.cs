@@ -132,6 +132,9 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public void ReceiveDirectionalInput(Vector2 input)
     {
+        if (!_active)
+            return;
+
         float angle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg;
 
         if (angle < 45 && angle > -45)

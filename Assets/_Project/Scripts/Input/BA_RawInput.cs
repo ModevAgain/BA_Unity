@@ -18,11 +18,16 @@ namespace BA
         private KeyCode Keyboard_0;
         [SerializeField]
         private KeyCode Keyboard_1;
+        [SerializeField]
+        private float MaxSwipeTime;
+        [SerializeField]
+        private float MinSwipeDist;
 
         #region Input Delegates
 
         public delegate void InputDelegate();
         public delegate void InputDelegateVector3(Vector3 v);
+        public delegate void InputDelegateVectorSwipe(Vector2 start, Vector2 end);
         public delegate void InputDelegateTouch(Touch t);
         public delegate void InputDelegateFloat(float f);
 
@@ -43,6 +48,7 @@ namespace BA
         public InputDelegate Touch_0_Down;
         public InputDelegate Touch_0_Up;
         public InputDelegateTouch Touch_0;
+        public InputDelegateVectorSwipe Swipe_0;
 
         //Touch 1
         public InputDelegate Touch_1_Down;
@@ -74,6 +80,8 @@ namespace BA
         private float _cachedY_Left;
         private float _cachedX_Right;
         private float _cachedY_Right;
+        private Vector2 _cachedTouchStart0;
+        private float _cachedSwipeStartTime0;
 
 
         #endregion
@@ -113,10 +121,20 @@ namespace BA
                 if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     Touch_0_Down();
+                    _cachedTouchStart0 = Input.GetTouch(0).position;
+                    _cachedSwipeStartTime0 = Time.time;
                 }
                 else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
-                    Touch_0_Up();
+                    if ((Input.GetTouch(0).position - _cachedTouchStart0).sqrMagnitude > MinSwipeDist)
+                    {
+                        if (Time.time - _cachedSwipeStartTime0 < MaxSwipeTime)
+                        {                            
+                            Swipe_0(_cachedTouchStart0, Input.GetTouch(0).position);
+                            _cachedTouchStart0 = Vector2.zero;
+                        }
+                    }
+                    else Touch_0_Up();
                 }
             }
 
