@@ -8,6 +8,7 @@ public class PlatformTracker : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        CurrentPlatform = other.gameObject.GetComponent<Platform>();
+        if(other.gameObject.GetComponent<Platform>().Activated)
+            CurrentPlatform = other.gameObject.GetComponent<Platform>();        
     }
 }

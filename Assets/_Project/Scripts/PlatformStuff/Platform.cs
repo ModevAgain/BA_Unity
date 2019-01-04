@@ -20,6 +20,7 @@ public class Platform : MonoBehaviour {
     private List<ResourceObject> _resourcesInRange;
     private int _currentType;
     private TextMeshPro _text;
+    private WallScript[] _walls;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class Platform : MonoBehaviour {
         _resourcesInRange = new List<ResourceObject>();
         _text = GetComponentInChildren<TextMeshPro>();
 
+        _walls = GetComponentsInChildren<WallScript>();
     }
 
     public void Highlight(int op)
@@ -67,7 +69,12 @@ public class Platform : MonoBehaviour {
             ShouldGather = true;
             StartCoroutine(GatherRoutine());
         }
-        
+
+        foreach (var wall in _walls)
+        {
+            wall.ActivateWall();
+        }
+
     }
 
     public void Deactivate()

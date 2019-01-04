@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     private NavMeshAgent _agent;
     private Rigidbody _rigid;
 
+
     void Start () {
 
         InputMapper.MoveInputVector2 += MoveVector2;
@@ -41,6 +42,9 @@ public class PlayerMovement : MonoBehaviour {
     private void MoveVector2(Vector2 inputPos)
     {
 
+        _rigid.velocity = Vector3.zero;
+        _rigid.angularVelocity = Vector3.zero;
+
         //No Input
         if (inputPos == Vector2.zero)
             return;
@@ -53,9 +57,10 @@ public class PlayerMovement : MonoBehaviour {
         _rigid.MovePosition(transform.position + inputVectorOrtho * Time.deltaTime * SpeedForDirectMovement);
 
         if(transform.position + inputVectorOrtho * Time.deltaTime * SpeedForDirectMovement != transform.position)
-            transform.LookAt(_direction);
+            if (inputVectorOrtho.sqrMagnitude > 0.1f)                
+                transform.LookAt(_direction);
         
-
+        
     }
 
     private void MoveVector3(Vector3 inputPos)
