@@ -50,6 +50,15 @@ public class ResourceObject : MonoBehaviour {
         yield return new WaitForSeconds(0.15f);
 
 
+        if (_target == null)
+        {
+            _crater.StopCrater();
+            Destroy(_trails.gameObject);
+            Destroy(_crater.gameObject);
+            Destroy(gameObject);
+            yield break;
+        }
+
         _direction = _target.position - transform.position;
         _distanceSqr = _direction.sqrMagnitude;
 
@@ -58,6 +67,10 @@ public class ResourceObject : MonoBehaviour {
         {
             transform.position = Vector3.Lerp(transform.position, _target.position, Time.deltaTime * Speed);     
             yield return null;
+
+            if (_target == null)
+                break;
+
             _direction = _target.position - transform.position;
             _distanceSqr = _direction.sqrMagnitude;
         }
@@ -72,6 +85,15 @@ public class ResourceObject : MonoBehaviour {
         _crater.StopCrater();
         Destroy(_trails.gameObject);
         Destroy(_crater.gameObject);
+        Destroy(gameObject);
+    }
+
+    public IEnumerator HitLava()
+    {
+        _trails.transform.parent = null;
+        yield return new WaitForSeconds(2);
+
+        Destroy(_trails.gameObject);
         Destroy(gameObject);
     }
 }

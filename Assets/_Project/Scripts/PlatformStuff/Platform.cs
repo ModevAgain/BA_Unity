@@ -12,6 +12,7 @@ public class Platform : MonoBehaviour {
     public Mesh Mesh_1;
     public int GatherTime = 4;
     public bool ShouldGather;
+    public bool IsHQ;
 
     private PlatformData _platformData;
     private Renderer _ren;

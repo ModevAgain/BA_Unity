@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GridManager", menuName = "Data/GridManager", order = 1)]
@@ -16,17 +17,22 @@ public class GridManager : ScriptableObject {
     private Platform[] StartingGrid;
 
     public Dictionary<HashableVector, Platform> Grid;
-
-   
+    private List<Platform> _validPlatforms;
+    private Platform _HQ;
 
     public void Setup()
     {
         Grid = new Dictionary<HashableVector, Platform>();
         StartingGrid = FindObjectsOfType<Platform>();
 
+        _validPlatforms = new List<Platform>();
+
         foreach (var item in StartingGrid)
         {
             Grid.Add(new HashableVector(item.transform.localPosition), item);
+            if (item.IsHQ)
+                _HQ = item;
+            else _validPlatforms.Add(item);
         }
     }
 
@@ -66,9 +72,21 @@ public class GridManager : ScriptableObject {
             tempPlat.transform.localPosition = key.GetVector();
             Vector3 tempVec = tempPlat.transform.localPosition / PlatformEdgeSize;
             tempPlat.name = "Platform ( " + tempVec.x + " | " + tempVec.z + " )  Type: " + buildingOp;
+
+            _validPlatforms = Grid.Values.Where((p) => p.Activated && !p.IsHQ).ToList();
         }
 
         return outPlatform;
+    }
+
+    public List<Platform> GetValidPlatforms()
+    {
+        return _validPlatforms;
+    }
+
+    public Platform GetHQ()
+    {
+        return _HQ;
     }
 
 

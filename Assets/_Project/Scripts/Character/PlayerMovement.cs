@@ -72,11 +72,18 @@ public class PlayerMovement : MonoBehaviour {
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000, 1 << 11))
-        {
+        //if (Physics.Raycast(ray, out hit, 1000, 1 << 11))
+        //{
 
-            if (!hit.transform.GetComponent<Platform>().Activated)
-                return;
+        //    if (!hit.transform.GetComponent<Platform>().Activated)
+        //        return;
+
+        //    _target = hit.point;
+        //    _direction = (_target - transform.position).normalized;
+        //}
+
+        if (Physics.Raycast(ray, out hit, 1000, 1 << 10))
+        {
 
             _target = hit.point;
             _direction = (_target - transform.position).normalized;

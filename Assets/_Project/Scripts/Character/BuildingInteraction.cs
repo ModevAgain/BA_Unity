@@ -47,7 +47,11 @@ public class BuildingInteraction : MonoBehaviour {
     public void ReceiveBuildingOperation(bool build)
     {
         if (!_canBuild)
+        {
+            _buildAction = false;
+            _waitingForAction = false;
             return;
+        }
 
         if (build)
         {
@@ -121,6 +125,7 @@ public class BuildingInteraction : MonoBehaviour {
             yield return null;
         }
 
-        
+        Debug.Log("leave Building");
     }
+
 }
