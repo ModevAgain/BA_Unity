@@ -94,7 +94,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         if(Physics.Raycast(ray, out hit, 1 << 11))
         {
-            if(hit.transform.GetComponent<Platform>() == _builder.GetCurrentPlatform())
+            if(hit.transform.GetComponent<Platform>() == _builder.GetCurrentPlatform() && _builder.CanBuild())
             {
                 Build(true);
             }

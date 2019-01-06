@@ -72,15 +72,15 @@ namespace BA
             if (!IsInputValid(type))
                 return;
 
-            if(type == BA_InputType.MOUSE_0_DOWN || type == BA_InputType.TOUCH_0_DOWN)
+            if(type == BA_InputType.MOUSE_0_DOWN)
             {
 
-                int pointerID = type == BA_InputType.MOUSE_0_DOWN ? -1 : _currentFingerID;
+                int pointerID = -1;
 
                 _ped = _inputModule.GetLastPointerEventDataCustom(pointerID);
 
                 if (_ped == null)
-                    Debug.Log("ped is null in mouse/touch down || pointerID == " + pointerID);
+                    Debug.Log("ped is null in " + type + " ==  " + pointerID);
 
                 _raycastResults.Clear();
 
@@ -94,10 +94,7 @@ namespace BA
                 //Delegate to UI Input Receiver
                 else
                 {
-                    if (type == BA_InputType.MOUSE_0_DOWN)
                         MouseInputUI(_ped);
-                    else TouchInputUI(_ped);
-
                 }
             }
             else if(type == BA_InputType.GAMEPAD_0_DOWN ||type == BA_InputType.KEYBOARD_0_DOWN)
@@ -138,7 +135,15 @@ namespace BA
                         _ped.pointerEnter = result.gameObject;
                 }
 
-                TouchInputUI(_ped);
+                if(_raycastResults.Count == 0)
+                {
+                    MoveInputVector3(_pointerPosition);
+                }
+                else
+                {
+                    TouchInputUI(_ped);
+                }
+
             }
         }
 
