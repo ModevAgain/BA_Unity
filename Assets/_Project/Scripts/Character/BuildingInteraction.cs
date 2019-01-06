@@ -128,4 +128,9 @@ public class BuildingInteraction : MonoBehaviour {
         Debug.Log("leave Building");
     }
 
+    public bool CanBuild()
+    {
+        return _canBuild;
+    }
+
 }
