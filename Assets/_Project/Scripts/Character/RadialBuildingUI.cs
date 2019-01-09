@@ -125,7 +125,8 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
 
     public void Build(bool build)
-    {
+    {        
+
         _builder.ReceiveBuildingOperation(build);
 
     }

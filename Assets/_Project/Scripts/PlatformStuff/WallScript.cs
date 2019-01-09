@@ -6,6 +6,8 @@ public class WallScript : MonoBehaviour {
 
     public bool ActiveFromStart;
 
+    public bool CurrentlyActive;
+
     private Collider _col;
     private Rigidbody _rigid;
     private Platform _selfPlatform;
@@ -20,6 +22,10 @@ public class WallScript : MonoBehaviour {
         {
             _col.enabled = false;
             _col.isTrigger = true;
+        }
+        else
+        {
+            CurrentlyActive = true;
         }
 
 	}
@@ -42,6 +48,7 @@ public class WallScript : MonoBehaviour {
     {
         _col.enabled = true;
         Invoke("ChangeToNormalWall", 0.1f);
+        CurrentlyActive = true;
     }
 
     public void ChangeToNormalWall()
@@ -51,6 +58,7 @@ public class WallScript : MonoBehaviour {
 
     public void DeactivateWall()
     {
+        CurrentlyActive = false;
         gameObject.SetActive(false);
     }
 }

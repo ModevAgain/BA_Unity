@@ -41,6 +41,8 @@ public class PlayerShooting : MonoBehaviour {
         if (_projectileInProgress)
             yield break;
 
+        //direction.y -= 50;
+
         _projectileInProgress = true;
 
         GameObject tempProjectile = Instantiate(Projectile);
@@ -52,23 +54,32 @@ public class PlayerShooting : MonoBehaviour {
         //Debug.DrawLine(transform.position, transform.position + _projectileDirection * ProjectileDistance, Color.red, 5);
 
         tempProjectile.transform.DOLookAt(transform.position + _projectileDirection,0, up: tempProjectile.transform.up);
-        yield return tempProjectile.transform.DOMove(transform.position + _projectileDirection * ProjectileDistance, ProjectileFlightTime).WaitForCompletion();
+        yield return tempProjectile.transform.DOMove(transform.position + _projectileDirection * ProjectileDistance, ProjectileFlightTime).SetEase(Ease.OutQuint).WaitForCompletion();
 
         yield return new WaitForSeconds(ProjectileStayTime);
 
         _backDirection = transform.position - tempProjectile.transform.position;
         _distanceSqr = _backDirection.sqrMagnitude;
 
+        float tempProjectileSpeed = ProjectileSpeed;
+
+        Vector3 startPos = tempProjectile.transform.position;
+        
+
         while (_distanceSqr > MinDistanceSqr)
         {
-            tempProjectile.transform.position = Vector3.Lerp(tempProjectile.transform.position, transform.position, Time.deltaTime * ProjectileSpeed);
-            yield return null;
+            //tempProjectile.transform.position = Vector3.Lerp(tempProjectile.transform.position, transform.position, Time.fixedDeltaTime * ProjectileSpeed);
+
+            tempProjectile.transform.position = Vector3.MoveTowards(tempProjectile.transform.position, transform.position, Time.fixedDeltaTime * ProjectileSpeed);
+
+            yield return new WaitForFixedUpdate();
             tempProjectile.transform.LookAt(transform.position);
             _backDirection = tempProjectile.transform.position - transform.position;
             _distanceSqr = _backDirection.sqrMagnitude;
-            ProjectileSpeed *= 1.01f;
+            tempProjectileSpeed *= 2;
         }
 
+        Debug.Log(tempProjectile.name);
         Destroy(tempProjectile);
 
 

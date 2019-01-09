@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System.Linq;
 
 public class Platform : MonoBehaviour {
 
@@ -13,6 +14,7 @@ public class Platform : MonoBehaviour {
     public int GatherTime = 4;
     public bool ShouldGather;
     public bool IsHQ;
+    public GameObject Platform2Object;
 
     private PlatformData _platformData;
     private Renderer _ren;
@@ -20,8 +22,9 @@ public class Platform : MonoBehaviour {
     private Collider _col;
     private List<ResourceObject> _resourcesInRange;
     private int _currentType;
-    private TextMeshPro _text;
     private WallScript[] _walls;
+    private List<WallScript> _activeWalls; 
+    private System.Random _rnd;
 
     private void Awake()
     {
@@ -34,9 +37,10 @@ public class Platform : MonoBehaviour {
             _ren.material = _platformData.HighlightMat;
 
         _resourcesInRange = new List<ResourceObject>();
-        _text = GetComponentInChildren<TextMeshPro>();
 
         _walls = GetComponentsInChildren<WallScript>();
+        _activeWalls = new List<WallScript>();
+         _rnd = new System.Random();
     }
 
     public void Highlight(int op)
@@ -49,14 +53,12 @@ public class Platform : MonoBehaviour {
         else
         {
             //_col.enabled = false;   
-            //_meshFilter.sharedMesh = op == 0 ? Mesh_0 : Mesh_1;
+            _meshFilter.sharedMesh = op == 0 ? Mesh_0 : Mesh_1;
             gameObject.name = gameObject.name.Substring(0, gameObject.name.Length - 1) + op;
-            _text.text = op == 0 ? "I" : "II";  
             _ren.material = _platformData.HighlightMat;
         }
         _ren.enabled = true;
         _currentType = op;
-        _text?.DOFade(1, 0);
     }
 
     public void Activate()
@@ -67,8 +69,10 @@ public class Platform : MonoBehaviour {
         
         if (_currentType == 1)
         {
-            ShouldGather = true;
-            StartCoroutine(GatherRoutine());
+            //ShouldGather = true;
+            //StartCoroutine(GatherRoutine());
+
+            Platform2Object.SetActive(true);
         }
 
         foreach (var wall in _walls)
@@ -89,7 +93,6 @@ public class Platform : MonoBehaviour {
             _col.enabled = false;
             _ren.enabled = false;
             _ren.material = _platformData.HighlightMat;
-            _text?.DOFade(0, 0);
         }
     }
 
@@ -130,5 +133,16 @@ public class Platform : MonoBehaviour {
             if(_resourcesInRange.Contains(tempResource))
                 _resourcesInRange.Remove(tempResource);
         }
+    }
+
+    public Vector3 GetRandomActiveWall()
+    {
+
+        _activeWalls =  _walls.Where((w) => w.CurrentlyActive).ToList();
+
+        if (_activeWalls.Count != 0)
+            return _activeWalls[_rnd.Next(_activeWalls.Count)].transform.position;
+        else return Vector3.zero;
+        
     }
 }

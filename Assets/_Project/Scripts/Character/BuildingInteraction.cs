@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class BuildingInteraction : MonoBehaviour {
 
+    public static bool BUILDING_IN_PROGESS;
+
     public GridManager _gridManager;
     private PlayerReferences _playerRefs;
 
@@ -50,6 +52,7 @@ public class BuildingInteraction : MonoBehaviour {
         {
             _buildAction = false;
             _waitingForAction = false;
+            BUILDING_IN_PROGESS = false;
             return;
         }
 
@@ -58,6 +61,7 @@ public class BuildingInteraction : MonoBehaviour {
             
             _buildAction = build;
             _waitingForAction = false;
+            BUILDING_IN_PROGESS = true;
         }
         else
         {
@@ -65,6 +69,9 @@ public class BuildingInteraction : MonoBehaviour {
             _buildAction = build;
             _waitingForAction = false;
             _buildingMenuActive = false;
+
+            _highlightedPlatform = null;
+            StopCoroutine(_buildingRoutine);
 
         }
     }
@@ -116,8 +123,14 @@ public class BuildingInteraction : MonoBehaviour {
             {
 
                 _highlightedPlatform?.Activate();
+
+                //Wait a frame for Wall Deactivation
+                yield return null;
+
                 _waitingForAction = true;
                 _navSurface.BuildNavMesh();
+
+                BUILDING_IN_PROGESS = false;
             }
 
             _highlightedPlatform = null;

@@ -21,10 +21,16 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 _direction;
     private Vector3 _target;
 
+    [SerializeField]
     private bool shouldMove;
     private NavMeshAgent _agent;
     private Rigidbody _rigid;
 
+    [Header("Wall Check Data")]
+    private int _frameCountToCache = 10;
+    private int _frameCount;
+    private Vector3 _posCache;
+    public float MinDistanceForMovingDetection = 1;
 
     void Start () {
 
@@ -36,6 +42,7 @@ public class PlayerMovement : MonoBehaviour {
         _target = Vector3.negativeInfinity;
         _agent = GetComponent<NavMeshAgent>();
         _rigid = GetComponent<Rigidbody>();
+
     }
 
     
@@ -66,6 +73,9 @@ public class PlayerMovement : MonoBehaviour {
     private void MoveVector3(Vector3 inputPos)
     {
 
+        if (BuildingInteraction.BUILDING_IN_PROGESS)
+            return;
+
         _agent.enabled = true;
 
         Ray ray = Camera.main.ScreenPointToRay(inputPos);
@@ -86,12 +96,27 @@ public class PlayerMovement : MonoBehaviour {
         {
 
             _target = hit.point;
+
+            Platform p = hit.transform.GetComponent<Platform>();
+
+            if(p != null)
+            {
+                if (!p.Activated)
+                    return;
+            }
+
             _direction = (_target - transform.position).normalized;
         }
 
         _direction = (_target - transform.position).normalized;
 
-        _agent.SetDestination(_target);
+
+        NavMeshHit navHit;
+
+        NavMesh.SamplePosition(_target, out navHit, 1000,  NavMesh.AllAreas);
+
+        _agent.SetDestination(navHit.position);
+
 
         shouldMove = true;
 
@@ -101,6 +126,11 @@ public class PlayerMovement : MonoBehaviour {
     {
         if (_target == Vector3.negativeInfinity || !shouldMove)
             return;
+
+        if(_agent.velocity != Vector3.zero)
+        {
+            //CheckIfPositionHasChanged();
+        }
 
 
         CurrentDistanceToTarget = Vector3.Distance(transform.position, _target);
@@ -112,6 +142,32 @@ public class PlayerMovement : MonoBehaviour {
             return;
         }
 
+    }
+
+    private void CheckIfPositionHasChanged()
+    {
+        if (_frameCount == 0)
+        {
+            _posCache = transform.position;
+        }
+
+        _frameCount++;
+
+
+        if(_frameCount >= _frameCountToCache)
+        {
+            _frameCount = 0;
+            //Debug.Log((_posCache - transform.position).sqrMagnitude);
+            if ((_posCache - transform.position).sqrMagnitude < MinDistanceForMovingDetection)
+            {
+                
+
+                _agent.SetDestination(transform.position);
+
+                
+                Debug.Log("stopping");
+            }
+        }
     }
 
 

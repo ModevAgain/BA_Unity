@@ -6,11 +6,13 @@ using TMPro;
 
 public class ResourceManager : MonoBehaviour {
 
-    public TextMeshPro ResourceText;
-    public int ResourceCount;
+    public TextMeshPro ResourceText_0;
+    public TextMeshPro ResourceText_1;
+    public int ResourceCount_0;
+    public int ResourceCount_1;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -20,10 +22,18 @@ public class ResourceManager : MonoBehaviour {
 	}
 
 
-    public void IncrementResource(int count)
+    public void IncrementResource(int resType, int count)
     {
-        ResourceCount += count;
-        ResourceText.text = "" + ResourceCount;
+        if(resType == 0)
+        {
+            ResourceCount_0 += count;
+            ResourceText_0.text = "" + ResourceCount_0;
+        }
+        else if(resType == 1)
+        {
+            ResourceCount_1 += count;
+            ResourceText_1.text = "" + ResourceCount_1;
+        }
 
     }
 }
