@@ -2197,7 +2197,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BUILDING_IN_PROGESS: 0
-  _gridManager: {fileID: 0}
   _highlightedPlatform: {fileID: 0}
   _waitingForAction: 0
   _buildingMenuActive: 0
@@ -3090,7 +3089,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlatformData: {fileID: 11400000, guid: a483592c93d49c948a629e8885008995, type: 2}
   GridManager: {fileID: 11400000, guid: 9eb5a7e86d522834abc9df90e07e3dc2, type: 2}
+  ResourceManager: {fileID: 1497303705}
+  BuildingInteraction: {fileID: 892307534}
+  NavMeshSurface: {fileID: 1730239529}
   PlatformHolder: {fileID: 1730239527}
+  PlayerReferences: {fileID: 892307533}
 --- !u!4 &1189731641
 Transform:
   m_ObjectHideFlags: 0
@@ -3098,7 +3101,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1189731639}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.425461, y: -6.290367, z: 6.9329295}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

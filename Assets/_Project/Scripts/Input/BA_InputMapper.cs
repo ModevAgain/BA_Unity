@@ -27,6 +27,8 @@ namespace BA
         public BA_RawInput RawInput;
         public List<BA_InputContext> Contexts;
 
+        public List<BA_InputGroup> ValidInputGroups;
+
         #region Input Delegates
 
         public delegate void InputDelegate();
@@ -233,6 +235,33 @@ namespace BA
         public void LoadContexts(List<BA_InputGroup> validInputGroups)
         {
             _activeContexts = Contexts.Where((context) => validInputGroups.Contains(context.Group)).ToList();
+            ValidInputGroups = validInputGroups;
+        }
+
+        public void LoadContext(BA_InputGroup g, BA_InputContext.BA_ContextType t)
+        {
+            BA_InputContext context = Contexts.Where((c) => c.Group == g && c.Type == t).FirstOrDefault();
+
+            if (context == null)
+                return;
+            if (_activeContexts.Contains(context))
+                return;
+            if (!ValidInputGroups.Contains(g))
+                return;
+
+            _activeContexts.Add(context);
+        }
+
+        public void UnloadContext(BA_InputGroup g, BA_InputContext.BA_ContextType t)
+        {
+            BA_InputContext context = Contexts.Where((c) => c.Group == g && c.Type == t).FirstOrDefault();
+
+            if (context == null)
+                return;
+            if (!_activeContexts.Contains(context))
+                return;
+
+            _activeContexts.Remove(context);
         }
 
         #endregion

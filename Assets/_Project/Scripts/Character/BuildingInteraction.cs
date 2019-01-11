@@ -6,11 +6,13 @@ using UnityEngine.AI;
 public class BuildingInteraction : MonoBehaviour {
 
     public bool BUILDING_IN_PROGESS;
-
-    public GridManager _gridManager;
-    private PlayerReferences _playerRefs;
-
+    
     public Platform _highlightedPlatform;
+
+    private GridManager _gridManager;
+    private PlayerReferences _playerRefs;
+    private PlatformData _platformData;
+
 
     private bool _buildAction;
     [SerializeField]
@@ -22,13 +24,16 @@ public class BuildingInteraction : MonoBehaviour {
     private NavMeshSurface _navSurface;
     private int _currentBuildingOp;
     private bool _canBuild;
+    private ResourceManager _resourceMan;
 
     private void Start()
     {
-        _playerRefs = GetComponent<PlayerReferences>();
+        _playerRefs = DataPipe.instance.PlayerReferences;
         _gridManager = DataPipe.instance.GridManager;
+        _platformData = DataPipe.instance.PlatformData;
+        _resourceMan = DataPipe.instance.ResourceManager;
 
-        _navSurface = FindObjectOfType<NavMeshSurface>();
+        _navSurface = DataPipe.instance.NavMeshSurface;
         _navSurface.BuildNavMesh();
     }
 
@@ -119,6 +124,10 @@ public class BuildingInteraction : MonoBehaviour {
             {
 
                 _highlightedPlatform?.Activate();
+
+                if(_currentBuildingOp == 0)
+                    _resourceMan.DecrementResource(_platformData.Platform1_Cost);
+                else _resourceMan.DecrementResource(_platformData.Platform2_Cost);
 
                 //Wait a frame for Wall Deactivation
                 for (int i = 0; i < 3; i++)

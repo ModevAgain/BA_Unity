@@ -9,6 +9,7 @@ using BA;
 public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public BA_InputMapper InputMapper;
+    public BA_ContextRegulator ContextRegulator;
 
 
     public CanvasGroup ActionGroup;
@@ -33,7 +34,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     void Start () {
 
         _img = GetComponent<Image>();
-        _builder = FindObjectOfType<BuildingInteraction>();
+        _builder = DataPipe.instance.BuildingInteraction;
         ActionGroup.transform.DOScale(0, 0);
 
         Action_1.Trigger = () => 
@@ -68,16 +69,19 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         
         if (!_active)
         {
+            ContextRegulator.Building_Activated();
             OnPointerDown();
-            _currentSelectedAction = Action_1;
-            SelectAction();
+            //_currentSelectedAction = Action_1;
+            //SelectAction();
             _active = true;
+
         }
         else
         {
             _active = false;
             Build(false);
             ResetToNormal();
+            ContextRegulator.Building_Deactivated();
         }
     }
 
@@ -88,9 +92,9 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public void ReceivePlatformCommand(Vector3 input)
     {
-        if (!_builder.CanBuild() || !_active)
+        if (!_builder.CanBuild() || !_active || !_selected)
         {
-            Debug.Log("Cannot Build");
+            //Debug.Log("Cannot Build");
             return;
         }
 
@@ -165,6 +169,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         {
             Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
             Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
+            _currentSelectedAction = null;
         }
     }
 

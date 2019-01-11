@@ -11,16 +11,6 @@ public class ResourceManager : MonoBehaviour {
     public int ResourceCount_0;
     public int ResourceCount_1;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 
     public void IncrementResource(int resType, int count)
     {
@@ -34,6 +24,19 @@ public class ResourceManager : MonoBehaviour {
             ResourceCount_1 += count;
             ResourceText_1.text = "" + ResourceCount_1;
         }
+    }
 
+    public void DecrementResource(PlatformData.PlatformCost cost)
+    {
+        if (cost.ResourceType == 0)
+        {
+            ResourceCount_0 -= cost.ResourceCount;
+            ResourceText_0.text = "" + ResourceCount_0;
+        }
+        else if (cost.ResourceType == 1)
+        {
+            ResourceCount_1 -= cost.ResourceCount;
+            ResourceText_1.text = "" + ResourceCount_1;
+        }
     }
 }
