@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour {
     private int _frameCount;
     private Vector3 _posCache;
     public float MinDistanceForMovingDetection = 1;
+    private BuildingInteraction _builder;
 
     void Start () {
 
@@ -42,6 +43,8 @@ public class PlayerMovement : MonoBehaviour {
         _target = Vector3.negativeInfinity;
         _agent = GetComponent<NavMeshAgent>();
         _rigid = GetComponent<Rigidbody>();
+
+        _builder = GetComponent<BuildingInteraction>();
 
     }
 
@@ -73,8 +76,11 @@ public class PlayerMovement : MonoBehaviour {
     private void MoveVector3(Vector3 inputPos)
     {
 
-        if (BuildingInteraction.BUILDING_IN_PROGESS)
+        if (_builder.BUILDING_IN_PROGESS)
+        {
+            Debug.Log("wanted to move while building");
             return;
+        }
 
         _agent.enabled = true;
 
@@ -117,6 +123,7 @@ public class PlayerMovement : MonoBehaviour {
 
         _agent.SetDestination(navHit.position);
 
+        //Debug.Log(navHit.position);
 
         shouldMove = true;
 
@@ -127,10 +134,6 @@ public class PlayerMovement : MonoBehaviour {
         if (_target == Vector3.negativeInfinity || !shouldMove)
             return;
 
-        if(_agent.velocity != Vector3.zero)
-        {
-            //CheckIfPositionHasChanged();
-        }
 
 
         CurrentDistanceToTarget = Vector3.Distance(transform.position, _target);
@@ -144,31 +147,7 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-    private void CheckIfPositionHasChanged()
-    {
-        if (_frameCount == 0)
-        {
-            _posCache = transform.position;
-        }
-
-        _frameCount++;
-
-
-        if(_frameCount >= _frameCountToCache)
-        {
-            _frameCount = 0;
-            //Debug.Log((_posCache - transform.position).sqrMagnitude);
-            if ((_posCache - transform.position).sqrMagnitude < MinDistanceForMovingDetection)
-            {
-                
-
-                _agent.SetDestination(transform.position);
-
-                
-                Debug.Log("stopping");
-            }
-        }
-    }
+   
 
 
 }

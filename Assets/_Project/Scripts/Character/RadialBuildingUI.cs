@@ -88,17 +88,25 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public void ReceivePlatformCommand(Vector3 input)
     {
+        if (!_builder.CanBuild() || !_active)
+        {
+            Debug.Log("Cannot Build");
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(input);
 
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, 1 << 11))
+        if (Physics.Raycast(ray, out hit, 1000, 1 << 11))
         {
-            if(hit.transform.GetComponent<Platform>() == _builder.GetCurrentPlatform() && _builder.CanBuild())
+            if (hit.transform.GetComponent<Platform>() == _builder.GetCurrentPlatform())
             {
                 Build(true);
             }
+            else Debug.Log(hit.transform.name);
         }
+        else Debug.Log("Didnt hit platform");
     }
 
     #endregion

@@ -30,11 +30,7 @@ public class PlayerShooting : MonoBehaviour {
 
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 
     public IEnumerator ShootProjectile(Vector2 direction)
     {
@@ -94,7 +90,7 @@ public class PlayerShooting : MonoBehaviour {
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000, 1 << 10))
+        if (Physics.Raycast(ray, out hit, 1000, 1 << 17))
         {
             return (hit.point - transform.position).normalized;
         }
