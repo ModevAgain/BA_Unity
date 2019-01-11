@@ -11,6 +11,8 @@ public class ActionUI : BA_BaseUIElement{
     public Sprite Normal;
     public Sprite Confirm;
 
+    public ActionUI ActionUIOther;
+
     public Action Trigger;
     private RectTransform _rect;
     private Image _img;
@@ -27,17 +29,17 @@ public class ActionUI : BA_BaseUIElement{
     
     public override void OnPointerEnter(PointerEventData eventData)
     {
-       // base.OnPointerEnter(eventData);
-       if(!_toggled)
-            _rect.DOScale(1.15f, 0.15f);
+        // base.OnPointerEnter(eventData);
+        if (!_toggled) { }
+            //_rect.DOScale(1.15f, 0.15f);
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
         //base.OnPointerExit(eventData);
 
-        if(!_toggled)
-            _rect.DOScale(1f, 0.15f);
+        if (!_toggled) { }
+            //_rect.DOScale(1f, 0.15f);
     }
 
 
@@ -50,19 +52,21 @@ public class ActionUI : BA_BaseUIElement{
 
     public void SetConfirmSprite()
     {
-        _CG.DOFade(0, 0.05f).OnComplete(() =>
-        {
-            _img.sprite = Confirm;
-            _CG.DOFade(1, 0.05f);
-        });
+        _img.sprite = Confirm;
+        //_CG.DOFade(0, 0.05f).OnComplete(() =>
+        //{
+        //    _img.sprite = Confirm;
+        //    _CG.DOFade(1, 0.05f);
+        //});
     }
 
     public void Hide()
     {
-        _CG.DOFade(0, 0.05f).OnComplete(() =>
-        {
-            _img.sprite = Normal;
-        });
+        _img.sprite = Normal;
+        //_CG.DOFade(0, 0.05f).OnComplete(() =>
+        //{
+        //    _img.sprite = Normal;
+        //});
     }
 
     public void ResetVisualFuntionality()

@@ -122,8 +122,15 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
 
         _active = true;
-        _img.DOFade(0.5f, 0f);
-        ActionGroup.transform.DOScale(1, 0.05f);
+        //_img.DOFade(0.5f, 0f);
+        _img.DOFade(0f, 0.1f).OnComplete(() =>
+        {
+            _img.sprite = AbortSprite;
+            _img.DOFade(1, 0.1f);
+        });
+        ActionGroup.alpha = 0;
+        ActionGroup.DOFade(1, 0.1f);
+        ActionGroup.transform.DOScale(1, 0.1f);
     }
 
 
@@ -181,10 +188,14 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         if (_currentSelectedAction == Action_1)
         {
             _buildingOp = 0;
+            Action_2.Hide();
+            Action_1.SetConfirmSprite();
         }
         else if (_currentSelectedAction == Action_2)
         {
             _buildingOp = 1;
+            Action_1.Hide();
+            Action_2.SetConfirmSprite();
         }
         
 
@@ -193,9 +204,18 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public void ResetToNormal()
     {
+        Action_1.Hide();
+        Action_2.Hide();
+        ActionGroup.alpha = 1;
+        ActionGroup.DOFade(0, 0.2f);
         ActionGroup.transform.DOScale(0, 0.1f);
-        _img.sprite = BuildSprite;
-        _img.DOFade(1, 0.05f);
+        _img.DOFade(0f, 0.1f).OnComplete(() =>
+        {
+            _img.sprite = BuildSprite;
+            _img.DOFade(1, 0.1f);
+        });
+        //_img.sprite = BuildSprite;
+        //_img.DOFade(1, 0.05f);
         _selected = false;
         _active = false;
 
