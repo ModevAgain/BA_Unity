@@ -53,6 +53,7 @@ public class ActionUI : BA_BaseUIElement{
     public void SetConfirmSprite()
     {
         _img.sprite = Confirm;
+        _img.transform.DOScale(1f, 0.1f);
         //_CG.DOFade(0, 0.05f).OnComplete(() =>
         //{
         //    _img.sprite = Confirm;
@@ -63,6 +64,7 @@ public class ActionUI : BA_BaseUIElement{
     public void Hide()
     {
         _img.sprite = Normal;
+        _img.transform.DOScale(0.96f, 0.1f);
         //_CG.DOFade(0, 0.05f).OnComplete(() =>
         //{
         //    _img.sprite = Normal;
