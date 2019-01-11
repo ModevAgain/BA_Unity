@@ -11,4 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5643e11f8a4b48b41baa65c702d77172, type: 3}
   m_Name: InputRegulator
   m_EditorClassIdentifier: 
-  InputMapper: {fileID: 0}
+  InputMapper: {fileID: 11400000, guid: ee9491d2c088b8c4bb0f53b9e204a311, type: 2}

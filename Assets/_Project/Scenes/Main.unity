@@ -3310,6 +3310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputMapper: {fileID: 11400000, guid: ee9491d2c088b8c4bb0f53b9e204a311, type: 2}
+  ContextRegulator: {fileID: 11400000, guid: 5e4d2408d235677419688776f0d1cacf, type: 2}
   ActionGroup: {fileID: 216835404}
   Action_1: {fileID: 1557212520}
   Action_2: {fileID: 545102642}
