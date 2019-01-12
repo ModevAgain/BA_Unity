@@ -94,6 +94,8 @@ public class BuildingInteraction : MonoBehaviour {
 
             BUILDING_IN_PROGESS = false;
 
+            _navSurface.BuildNavMesh();
+
         }
     }
 
@@ -149,8 +151,6 @@ public class BuildingInteraction : MonoBehaviour {
                     _resourceMan.DecrementResource(_platformData.Platform1_Cost);
                 else _resourceMan.DecrementResource(_platformData.Platform2_Cost);
 
-                RessourceCheck();
-
                 //Wait a frame for Wall Deactivation
                 for (int i = 0; i < 3; i++)
                 {
@@ -161,6 +161,7 @@ public class BuildingInteraction : MonoBehaviour {
                 _navSurface.BuildNavMesh();
 
                 BUILDING_IN_PROGESS = false;
+                RessourceCheck();
             }
 
             _highlightedPlatform = null;

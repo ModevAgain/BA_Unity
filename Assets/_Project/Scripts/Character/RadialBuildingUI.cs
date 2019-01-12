@@ -161,17 +161,23 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     }
     public void RessourceCheck()
     {
-        if (!_resourceMan.HasEnoughResource(_platformData.Platform1_Cost))
+        if(_currentSelectedAction == Action_1)
         {
-            Action_1.Hide();
-            _currentSelectedAction = null;
-            Build(false);
+            if (!_resourceMan.HasEnoughResource(_platformData.Platform1_Cost))
+            {
+                Action_1.Hide();
+                _currentSelectedAction = null;
+                Build(false);
+            }
         }
-        if (!_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
+        else if(_currentSelectedAction == Action_2)
         {
-            Action_2.Hide();
-            _currentSelectedAction = null;
-            Build(false);
+            if (!_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
+            {
+                Action_2.Hide();
+                _currentSelectedAction = null;
+                Build(false);
+            }
         }
     }
 

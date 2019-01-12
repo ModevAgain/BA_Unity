@@ -3253,7 +3253,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 8984561988c928e498113724fb61bc83, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8ee80f39c195a184bb946ca4c140e54d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3912,7 +3912,7 @@ MonoBehaviour:
     type: 2}
   MaxSpawnDistance: 5
   MinDistanceToHQ: 25
-  SpawnTimeRessorce1: 0.5
+  SpawnTimeRessorce1: 3
   ShouldSpawn_Ressource1: 1
   Ressource2Prefab: {fileID: 1011346122021376, guid: 8fb96d59923dcc24fbe4fa0b1a113bc8,
     type: 2}
