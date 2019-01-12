@@ -16,9 +16,8 @@ public class BuildingInteraction : MonoBehaviour {
 
     private bool _buildAction;
     [SerializeField]
-    private bool _waitingForAction;
-    [SerializeField]
-    private bool _buildingMenuActive;
+    private bool _waitingForAction;   
+    public bool BuildingMenuActive;
 
     private Coroutine _buildingRoutine;
     private NavMeshSurface _navSurface;
@@ -54,11 +53,24 @@ public class BuildingInteraction : MonoBehaviour {
 
         if (build)
         {
+            bool enoughRessources = false;
+
+            if(_currentBuildingOp == 0)
+            {
+                enoughRessources = _resourceMan.HasEnoughResource(_platformData.Platform1_Cost);
+            }
+            else if(_currentBuildingOp == 1)
+            {
+                enoughRessources = _resourceMan.HasEnoughResource(_platformData.Platform2_Cost);
+            }
+
+            if (!enoughRessources)
+                return;
+
 
             _buildAction = true;
             _waitingForAction = false;
             BUILDING_IN_PROGESS = true;
-            Debug.Log("true");
         }
         else
         {
@@ -67,7 +79,7 @@ public class BuildingInteraction : MonoBehaviour {
 
             _buildAction = false;
             _waitingForAction = false;
-            _buildingMenuActive = false;
+            BuildingMenuActive = false;
 
             _highlightedPlatform = null;
             StopCoroutine(_buildingRoutine);
@@ -81,7 +93,7 @@ public class BuildingInteraction : MonoBehaviour {
     {
         _currentBuildingOp = op;
         Debug.Log("op: " + op);
-        _buildingMenuActive = true;
+        BuildingMenuActive = true;
 
         if (_buildingRoutine != null)
             StopCoroutine(_buildingRoutine);
@@ -96,7 +108,7 @@ public class BuildingInteraction : MonoBehaviour {
 
         Vector3 lastPos = Vector3.zero;
         Vector3 lastDir = Vector3.zero;
-        while (_buildingMenuActive)
+        while (BuildingMenuActive)
         {
             while (_waitingForAction)
             {            
@@ -145,8 +157,6 @@ public class BuildingInteraction : MonoBehaviour {
 
             yield return null;
         }
-
-        Debug.Log("leave Building");
     }
 
     public bool CanBuild()

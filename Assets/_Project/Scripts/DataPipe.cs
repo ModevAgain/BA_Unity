@@ -10,6 +10,7 @@ public class DataPipe : MonoBehaviour {
     public GridManager GridManager;
     public ResourceManager ResourceManager;
     public BuildingInteraction BuildingInteraction;
+    public RadialBuildingUI BuildingUI;
 
     public NavMeshSurface NavMeshSurface;
     public GameObject PlatformHolder;

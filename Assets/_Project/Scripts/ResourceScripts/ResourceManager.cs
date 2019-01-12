@@ -39,4 +39,18 @@ public class ResourceManager : MonoBehaviour {
             ResourceText_1.text = "" + ResourceCount_1;
         }
     }
+
+    public bool HasEnoughResource(PlatformData.PlatformCost cost)
+    {
+        if (cost.ResourceType == 0)
+        {
+            return ResourceCount_0 - cost.ResourceCount >= 0;
+        }
+        else if (cost.ResourceType == 1)
+        {
+            return ResourceCount_1 - cost.ResourceCount >= 0;
+        }
+
+        return false;
+    }
 }

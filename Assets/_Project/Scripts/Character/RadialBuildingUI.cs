@@ -25,6 +25,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     private Image _img;
 
     private BuildingInteraction _builder;
+    [SerializeField]
     private bool _active;
     private bool _selected;
     private ActionUI _currentSelectedAction;
@@ -214,10 +215,13 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             _img.sprite = BuildSprite;
             _img.DOFade(1, 0.1f);
         });
-        //_img.sprite = BuildSprite;
-        //_img.DOFade(1, 0.05f);
         _selected = false;
         _active = false;
 
+    }
+
+    public bool IsActive()
+    {
+        return _active;
     }
 }

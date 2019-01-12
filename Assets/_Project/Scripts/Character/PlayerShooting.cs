@@ -21,12 +21,13 @@ public class PlayerShooting : MonoBehaviour {
     private float _distanceSqr;
     private Vector3 _backDirection;
     private bool _projectileInProgress;
+    private RadialBuildingUI _buildingUI;
 
     // Use this for initialization
     void Start () {
 
         InputMapper.ActionKey_2 += (dir) => StartCoroutine(ShootProjectile(dir));
-        //InputMapper.mo
+        _buildingUI = DataPipe.instance.BuildingUI;
 
 
     }
@@ -35,6 +36,9 @@ public class PlayerShooting : MonoBehaviour {
     public IEnumerator ShootProjectile(Vector2 direction)
     {
         if (_projectileInProgress)
+            yield break;
+
+        if (_buildingUI.IsActive())
             yield break;
 
         //direction.y -= 50;

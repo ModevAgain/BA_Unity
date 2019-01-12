@@ -52,6 +52,7 @@ public class Platform : MonoBehaviour {
         }
         else
         {
+            _col.isTrigger = true;  
             //_col.enabled = false;   
             _meshFilter.sharedMesh = op == 0 ? Mesh_0 : Mesh_1;
             gameObject.name = gameObject.name.Substring(0, gameObject.name.Length - 1) + op;
@@ -64,6 +65,7 @@ public class Platform : MonoBehaviour {
     public void Activate()
     {
         _col.enabled = true;
+        _col.isTrigger = false;
         _ren.material = _platformData.NormalMat;
         Activated = true;
         
