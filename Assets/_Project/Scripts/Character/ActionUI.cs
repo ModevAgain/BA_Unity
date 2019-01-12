@@ -71,6 +71,14 @@ public class ActionUI : BA_BaseUIElement{
         //});
     }
 
+    public void Error()
+    {
+        _CG.DOFade(0.5f, 0.1f).OnComplete(() =>
+            {
+            _CG.DOFade(1f, 0.5f);
+            });
+    }
+
     public void ResetVisualFuntionality()
     {
         _toggled = false;

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using BA;
+using System;
 
 public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
@@ -31,6 +32,11 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     private ActionUI _currentSelectedAction;
     private int _buildingOp;
 
+    private ResourceManager _resourceMan;
+    private PlatformData _platformData;
+
+   
+
     // Use this for initialization
     void Start () {
 
@@ -51,11 +57,14 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             SelectAction();           
         };
 
+        _resourceMan = DataPipe.instance.ResourceManager;
+        _platformData = DataPipe.instance.PlatformData;
+
         BA_InputReceiverUI.Instance.ActionKey += BuildMenu;
         BA_InputReceiverUI.Instance.ActionKey2 += ReceiveBuildCommand;
         BA_InputReceiverUI.Instance.ActionDirectional += ReceiveDirectionalInput;
         InputMapper.MoveInputVector3 += ReceivePlatformCommand;
-
+        _builder.RessourceCheck = () => RessourceCheck();
     }
 
     #region BA_Input
@@ -150,6 +159,21 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         _builder.ReceiveBuildingOperation(build);
 
     }
+    public void RessourceCheck()
+    {
+        if (!_resourceMan.HasEnoughResource(_platformData.Platform1_Cost))
+        {
+            Action_1.Hide();
+            _currentSelectedAction = null;
+            Build(false);
+        }
+        if (!_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
+        {
+            Action_2.Hide();
+            _currentSelectedAction = null;
+            Build(false);
+        }
+    }
 
     public void ReceiveDirectionalInput(Vector2 input)
     {
@@ -188,19 +212,37 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         if (_currentSelectedAction == Action_1)
         {
-            _buildingOp = 0;
-            Action_2.Hide();
-            Action_1.SetConfirmSprite();
+            if (_resourceMan.HasEnoughResource(_platformData.Platform1_Cost))
+            {
+                _buildingOp = 0;
+                Action_2.Hide();
+                Action_1.SetConfirmSprite();
+            }
+            else
+            {
+                Action_1.Error();
+                _selected = false;
+            }
         }
         else if (_currentSelectedAction == Action_2)
         {
-            _buildingOp = 1;
-            Action_1.Hide();
-            Action_2.SetConfirmSprite();
+            if (_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
+            {
+                _buildingOp = 1;
+                Action_1.Hide();
+                Action_2.SetConfirmSprite();
+            }
+            else
+            {
+                Action_2.Error();
+                _selected = false;
+            }
         }
-        
 
-        _builder.StartBuildingProcess(_buildingOp);
+        if (_selected)
+        {
+            _builder.StartBuildingProcess(_buildingOp);
+        }
     }
 
     public void ResetToNormal()

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class BuildingInteraction : MonoBehaviour {
 
     public bool BUILDING_IN_PROGESS;
     
     public Platform _highlightedPlatform;
+
+    public Action RessourceCheck;
 
     private GridManager _gridManager;
     private PlayerReferences _playerRefs;
@@ -25,12 +28,15 @@ public class BuildingInteraction : MonoBehaviour {
     private bool _canBuild;
     private ResourceManager _resourceMan;
 
+    private RadialBuildingUI _radialBuildingUI;
+
     private void Start()
     {
         _playerRefs = DataPipe.instance.PlayerReferences;
         _gridManager = DataPipe.instance.GridManager;
         _platformData = DataPipe.instance.PlatformData;
         _resourceMan = DataPipe.instance.ResourceManager;
+        _radialBuildingUI = DataPipe.instance.BuildingUI;
 
         _navSurface = DataPipe.instance.NavMeshSurface;
         _navSurface.BuildNavMesh();
@@ -65,7 +71,9 @@ public class BuildingInteraction : MonoBehaviour {
             }
 
             if (!enoughRessources)
+            {
                 return;
+            }
 
 
             _buildAction = true;
@@ -140,6 +148,8 @@ public class BuildingInteraction : MonoBehaviour {
                 if(_currentBuildingOp == 0)
                     _resourceMan.DecrementResource(_platformData.Platform1_Cost);
                 else _resourceMan.DecrementResource(_platformData.Platform2_Cost);
+
+                RessourceCheck();
 
                 //Wait a frame for Wall Deactivation
                 for (int i = 0; i < 3; i++)
