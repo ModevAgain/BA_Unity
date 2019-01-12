@@ -18,6 +18,8 @@ public class ActionUI : BA_BaseUIElement{
     private Image _img;
     private CanvasGroup _CG;
     private bool _toggled;
+    private bool _inErrorAnimation;    
+
 
     private void Start()
     {
@@ -73,10 +75,14 @@ public class ActionUI : BA_BaseUIElement{
 
     public void Error()
     {
+        if (_inErrorAnimation)
+            return;
+
+        _inErrorAnimation = true;
         _CG.DOFade(0.5f, 0.1f).OnComplete(() =>
-            {
-            _CG.DOFade(1f, 0.5f);
-            });
+        {
+            _CG.DOFade(1f, 0.5f).OnComplete(() => _inErrorAnimation = false);
+        });
     }
 
     public void ResetVisualFuntionality()

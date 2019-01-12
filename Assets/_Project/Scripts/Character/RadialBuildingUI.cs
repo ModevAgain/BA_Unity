@@ -189,7 +189,9 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         float angle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg;
 
-        if (angle < 45 && angle > -45)
+        Debug.Log(angle);
+
+        if (angle < 45 && angle > -90)
         {
             //Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
             //Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
@@ -197,7 +199,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             SelectAction();
             
         }
-        else if (angle < -45 && angle > -145)
+        else if (angle < -90 || Mathf.Abs(angle) > (90))
         {            
             //Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
             //Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
