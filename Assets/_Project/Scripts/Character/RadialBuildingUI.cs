@@ -97,7 +97,8 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public void ReceiveBuildCommand()
     {
-        Build(true);
+        if(_active)
+            Build(true);
     }
 
     public void ReceivePlatformCommand(Vector3 input)
@@ -170,7 +171,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
                 Build(false);
             }
         }
-        else if(_currentSelectedAction == Action_2)
+        if(_currentSelectedAction == Action_2)
         {
             if (!_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
             {
@@ -190,23 +191,23 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         if (angle < 45 && angle > -45)
         {
-            Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
-            Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
+            //Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
+            //Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = Action_1;
             SelectAction();
             
         }
         else if (angle < -45 && angle > -145)
         {            
-            Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
-            Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
+            //Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
+            //Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = Action_2;
             SelectAction();
         }
         else
         {
-            Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
-            Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
+            //Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
+            //Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = null;
         }
     }
@@ -214,7 +215,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public void SelectAction()
     {
-        _selected = true;
+        _selected = false;
 
         if (_currentSelectedAction == Action_1)
         {
@@ -223,11 +224,11 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
                 _buildingOp = 0;
                 Action_2.Hide();
                 Action_1.SetConfirmSprite();
+                _selected = true;
             }
             else
             {
                 Action_1.Error();
-                _selected = false;
             }
         }
         else if (_currentSelectedAction == Action_2)
@@ -237,11 +238,11 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
                 _buildingOp = 1;
                 Action_1.Hide();
                 Action_2.SetConfirmSprite();
+                _selected = true;
             }
             else
             {
                 Action_2.Error();
-                _selected = false;
             }
         }
 

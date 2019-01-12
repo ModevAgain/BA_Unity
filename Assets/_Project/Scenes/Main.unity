@@ -3912,7 +3912,7 @@ MonoBehaviour:
     type: 2}
   MaxSpawnDistance: 5
   MinDistanceToHQ: 25
-  SpawnTimeRessorce1: 3
+  SpawnTimeRessorce1: 1
   ShouldSpawn_Ressource1: 1
   Ressource2Prefab: {fileID: 1011346122021376, guid: 8fb96d59923dcc24fbe4fa0b1a113bc8,
     type: 2}
