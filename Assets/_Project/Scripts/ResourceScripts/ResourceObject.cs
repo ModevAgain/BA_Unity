@@ -78,6 +78,7 @@ public class ResourceObject : MonoBehaviour {
             }
             Destroy(_trails.gameObject);
             Destroy(gameObject);
+            _resourceMan.IncrementResource(RessourceType, 1);
             yield break;
         }
 

@@ -162,7 +162,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     }
     public void RessourceCheck()
     {
-        if(_currentSelectedAction == Action_1)
+        if(_currentSelectedAction == Action_1 || _currentSelectedAction == null)
         {
             if (!_resourceMan.HasEnoughResource(_platformData.Platform1_Cost))
             {
@@ -171,7 +171,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
                 Build(false);
             }
         }
-        if(_currentSelectedAction == Action_2)
+        if(_currentSelectedAction == Action_2 || _currentSelectedAction == null)
         {
             if (!_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
             {
