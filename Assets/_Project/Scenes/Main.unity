@@ -973,7 +973,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1.72, z: 0.5}
+  m_Size: {x: 0.05, y: 1.72, z: 0.05}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &402499255
 Prefab:
@@ -3912,7 +3912,7 @@ MonoBehaviour:
     type: 2}
   MaxSpawnDistance: 5
   MinDistanceToHQ: 25
-  SpawnTimeRessorce1: 1
+  SpawnTimeRessorce1: 3
   ShouldSpawn_Ressource1: 1
   Ressource2Prefab: {fileID: 1011346122021376, guid: 8fb96d59923dcc24fbe4fa0b1a113bc8,
     type: 2}
