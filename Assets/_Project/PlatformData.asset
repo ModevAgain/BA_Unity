@@ -14,8 +14,10 @@ MonoBehaviour:
   HighlightMat: {fileID: 2100000, guid: 70af11ab8e43b9e488269c795086aed5, type: 2}
   NormalMat: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   Platform1_Cost:
-    ResourceType: 0
+  - ResourceType: 0
     ResourceCount: 5
   Platform2_Cost:
-    ResourceType: 1
+  - ResourceType: 0
+    ResourceCount: 5
+  - ResourceType: 1
     ResourceCount: 5

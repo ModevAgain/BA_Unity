@@ -8,8 +8,8 @@ public class PlatformData : ScriptableObject {
     public Material HighlightMat;    
     public Material NormalMat;
 
-    public PlatformCost Platform1_Cost;
-    public PlatformCost Platform2_Cost;
+    public List<PlatformCost> Platform1_Cost;
+    public List<PlatformCost> Platform2_Cost;
 
 
     [System.Serializable]

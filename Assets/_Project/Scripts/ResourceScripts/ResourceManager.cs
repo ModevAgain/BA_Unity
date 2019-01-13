@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System.Linq;
 
 public class ResourceManager : MonoBehaviour {
 
@@ -26,31 +26,38 @@ public class ResourceManager : MonoBehaviour {
         }
     }
 
-    public void DecrementResource(PlatformData.PlatformCost cost)
+    public void DecrementResource(List<PlatformData.PlatformCost> cost)
     {
-        if (cost.ResourceType == 0)
+        if (cost.Where((c) => c.ResourceType == 0).Count() != 0)
         {
-            ResourceCount_0 -= cost.ResourceCount;
+            ResourceCount_0 -= cost.Where((c) => c.ResourceType == 0).FirstOrDefault().ResourceCount;
             ResourceText_0.text = "" + ResourceCount_0;
         }
-        else if (cost.ResourceType == 1)
+        if (cost.Where((c) => c.ResourceType == 1).Count() != 0)
         {
-            ResourceCount_1 -= cost.ResourceCount;
+            ResourceCount_1 -= cost.Where((c) => c.ResourceType == 1).FirstOrDefault().ResourceCount;
             ResourceText_1.text = "" + ResourceCount_1;
         }
     }
 
-    public bool HasEnoughResource(PlatformData.PlatformCost cost)
+    public bool HasEnoughResource(List<PlatformData.PlatformCost> cost)
     {
-        if (cost.ResourceType == 0)
+        bool enoughResources = true;
+
+        if (cost.Where((c) => c.ResourceType == 0).Count() != 0)
         {
-            return ResourceCount_0 - cost.ResourceCount >= 0;
+            if(! (ResourceCount_0 - cost.Where((c) => c.ResourceType == 0).FirstOrDefault().ResourceCount >= 0))
+            {
+                enoughResources = false;
+            }
+;
         }
-        else if (cost.ResourceType == 1)
+        if (cost.Where((c) => c.ResourceType == 1).Count() != 0)
         {
-            return ResourceCount_1 - cost.ResourceCount >= 0;
+            if (!(ResourceCount_1 - cost.Where((c) => c.ResourceType == 1).FirstOrDefault().ResourceCount >= 0))
+                enoughResources = false;
         }
 
-        return false;
+        return enoughResources;
     }
 }
