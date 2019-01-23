@@ -158,18 +158,33 @@ namespace BA
                       
         }
 
+        Vector2 pPos;
+        Vector2 mappedDirection;
+
         public void ReceiveInputSwipe(Vector2 start, Vector2 end, BA_InputType type)
         {
             if (!IsInputValid(type))
                 return;
 
+            //Dirty QuickFix: Get PlayerPosToScreenPoint for directions origin
             if (type == BA_InputType.TOUCH_0_SWIPE)
             {
 
-                Vector2 direction = (end - start).normalized;
-                //Debug.Log("start: " + start + " |   end: " + end + " |  direction: " + direction);
-                Vector2 mappedDirection = new Vector2(Screen.width / 2 + Screen.width * direction.x, Screen.height / 2 + Screen.height * direction.y);
-                
+                Vector2 direction = (end - start);/*.normalized*/
+                //Debug.Log("start: " + start + " |   end: " + end + " |  direction not normalized: " + (end - start));
+                //Vector2 mappedDirection = new Vector2(Screen.width / 2f + (Screen.width/2) * direction.x, Screen.height / 2f + (Screen.height/2) * direction.y);
+
+                pPos = Camera.main.WorldToScreenPoint(DataPipe.instance.PlayerReferences.transform.position);
+
+                mappedDirection = new Vector2((pPos.x) + direction.x, (pPos.y) + direction.y);
+
+                //Debug.Log("direction: " + direction + " | mappedDirectionToPosition: " + mappedDirection);
+
+                //Debug.Log("screenRay: " + direction.normalized);
+
+                //GameObject.FindGameObjectWithTag("DebugUI2").GetComponent<RectTransform>().position = end;
+                //GameObject.FindGameObjectWithTag("DebugUI").GetComponent<RectTransform>().position = mappedDirection;
+
                 ActionKey_2.Invoke(mappedDirection);
             }
         }

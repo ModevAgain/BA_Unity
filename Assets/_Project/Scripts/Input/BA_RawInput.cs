@@ -135,7 +135,7 @@ namespace BA
                         }
                     }
                     else Touch_0_Up();
-                }
+                }                
             }
 
             //Touch 1

@@ -8,7 +8,7 @@ using DG.Tweening;
 public class EndGameView : MonoBehaviour {
 
     public Image Mask;
-    public RawImage BG;
+    public Image BG;
 
     public TextMeshProUGUI Plat1;
     public CanvasGroup Plat1CG;

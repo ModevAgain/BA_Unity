@@ -23,6 +23,8 @@ public class PlayerShooting : MonoBehaviour {
     private bool _projectileInProgress;
     private RadialBuildingUI _buildingUI;
 
+
+
     // Use this for initialization
     void Start () {
 
@@ -96,6 +98,7 @@ public class PlayerShooting : MonoBehaviour {
 
         if (Physics.Raycast(ray, out hit, 1000, 1 << 17))
         {
+            Debug.Log("worldRay: " + (hit.point - transform.position).normalized);
             return (hit.point - transform.position).normalized;
         }
 

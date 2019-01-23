@@ -6,18 +6,16 @@ using DG.Tweening;
 
 public class ResourceObject : MonoBehaviour {
 
-    [Header("Data")]
+    [Header("Data General")]
     public int RessourceType;
     public float MinDistanceSqr;
     public float Speed;
-    public float Ressource2LifeTime;
-
-    [Header("References")]
+    [Header("Data Ressource 2")]
+    public float Ressource2LifeTime;   
 
 
 
     private Transform _target;
-    [SerializeField]
     private float _distanceSqr;
     private Vector3 _direction;
     private bool _pickedUp;
@@ -33,6 +31,11 @@ public class ResourceObject : MonoBehaviour {
         _trails = GetComponentInChildren<ParticleSystem>();
         _crater = GetComponentInChildren<CraterScript>();
         _audioSrc = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        
     }
 
 
