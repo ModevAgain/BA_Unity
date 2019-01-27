@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StartManager : MonoBehaviour {
 
@@ -61,5 +62,10 @@ public class StartManager : MonoBehaviour {
         float z = Random.Range(minZ, maxZ);
 
         return new Vector3(x, 0, z);
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Main");
     }
 }
