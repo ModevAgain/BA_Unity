@@ -18,6 +18,6 @@ MonoBehaviour:
     ResourceCount: 5
   Platform2_Cost:
   - ResourceType: 0
-    ResourceCount: 5
+    ResourceCount: 3
   - ResourceType: 1
     ResourceCount: 5
