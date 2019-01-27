@@ -78,7 +78,7 @@ public class PlayerMovement : MonoBehaviour {
 
         if (_builder.BUILDING_IN_PROGESS)
         {
-            Debug.Log("wanted to move while building");
+            //Debug.Log("wanted to move while building");
             return;
         }
 

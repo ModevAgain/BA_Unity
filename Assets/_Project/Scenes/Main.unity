@@ -5384,7 +5384,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &269951351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12569,7 +12569,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &892307527
 GameObject:
   m_ObjectHideFlags: 0
@@ -13591,7 +13591,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1125473045
 GameObject:
   m_ObjectHideFlags: 0
@@ -15310,7 +15310,7 @@ MonoBehaviour:
   EndView: {fileID: 1265510989}
   TimerTextM: {fileID: 1617590467}
   TimerTextS: {fileID: 503894623}
-  StartTime: 100
+  StartTime: 180
   UpdateTime: 1
 --- !u!1 &1730239527
 GameObject:
@@ -15372,10 +15372,10 @@ MonoBehaviour:
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 76
   m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.025
+  m_VoxelSize: 0.038
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 6142736d02df9154287367e48a82719f, type: 2}
 --- !u!1 &1765827569
@@ -16777,6 +16777,10 @@ MonoBehaviour:
   ShouldGather: 0
   IsHQ: 1
   Platform2Object: {fileID: 0}
+  _ren: {fileID: 0}
+  _meshFilter: {fileID: 0}
+  _col: {fileID: 0}
+  _walls: []
 --- !u!1 &2110998413
 GameObject:
   m_ObjectHideFlags: 0

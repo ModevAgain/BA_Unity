@@ -36,12 +36,16 @@ public class GridManager : ScriptableObject {
         }
     }
 
-   
+    Platform outPlatform;
+    Vector3 direction;
+    HashableVector key;
+    GameObject tempPlat;
+    Vector3 tempVec;
     public Platform GetPlatformForHighlight(Vector3 pos, Vector3 dir, int buildingOp)
     {
-        Platform outPlatform;
+        outPlatform = null;
         
-        Vector3 direction = OrthoDirections.GetDirFromLookDirection(pos ,dir);
+        direction = OrthoDirections.GetDirFromLookDirection(pos ,dir);
 
         direction *= PlatformEdgeSize;
 
@@ -51,7 +55,7 @@ public class GridManager : ScriptableObject {
         //{
         //    //Debug.Log(item.Key);
         //}
-        HashableVector key = new HashableVector(pos + direction);
+        key = new HashableVector(pos + direction);
 
         Grid.TryGetValue(key, out outPlatform);
 
@@ -66,11 +70,11 @@ public class GridManager : ScriptableObject {
 
         if(outPlatform == null)
         {
-            GameObject tempPlat = Instantiate<GameObject>(PlatformObject, DataPipe.instance.PlatformHolder.transform);
+            tempPlat = Instantiate<GameObject>(PlatformObject, DataPipe.instance.PlatformHolder.transform);
             outPlatform = tempPlat.GetComponent<Platform>();
             Grid.Add(key, outPlatform);
             tempPlat.transform.localPosition = key.GetVector();
-            Vector3 tempVec = tempPlat.transform.localPosition / PlatformEdgeSize;
+            tempVec = tempPlat.transform.localPosition / PlatformEdgeSize;
             tempPlat.name = "Platform ( " + tempVec.x + " | " + tempVec.z + " )  Type: " + buildingOp;
 
             _validPlatforms = Grid.Values.Where((p) => p.Activated && !p.IsHQ).ToList();
@@ -108,17 +112,17 @@ public class GridManager : ScriptableObject {
             float maxDot = float.MinValue;
 
 
-            foreach (var dir in Directions)
+            for(int i = 0; i < Directions.Length; i++)// foreach (var dir in Directions)
             {
-                Vector3 lookDir = pos + dir[1] - pos;
-
+                Vector3 lookDir = pos + Directions[i][1] - pos;
+                
 
                 float currentDot = Vector3.Dot(lookDir, lookDirection);
                 //Debug.Log("PlayerDir: " + lookDirection + " PlatformDir: " + lookDir + " Dot: " + currentDot);
                 if (currentDot > maxDot)
                 {
                     maxDot = currentDot;
-                    direction = dir[0];
+                    direction = Directions[i][0];
                 }
             }
             return direction;

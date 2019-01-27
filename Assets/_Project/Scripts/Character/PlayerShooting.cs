@@ -87,7 +87,7 @@ public class PlayerShooting : MonoBehaviour {
         Particles.transform.LookAt(tempProjectile.transform.position);
         Particles.transform.rotation = Quaternion.Euler(0, Particles.transform.rotation.eulerAngles.y, 0);
 
-        Debug.Log(tempProjectile.name);
+        //Debug.Log(tempProjectile.name);
         Destroy(tempProjectile);
 
         Particles.Play();
@@ -105,7 +105,7 @@ public class PlayerShooting : MonoBehaviour {
 
         if (Physics.Raycast(ray, out hit, 1000, 1 << 17))
         {
-            Debug.Log("worldRay: " + (hit.point - transform.position).normalized);
+            //Debug.Log("worldRay: " + (hit.point - transform.position).normalized);
             return (hit.point - transform.position).normalized;
         }
 

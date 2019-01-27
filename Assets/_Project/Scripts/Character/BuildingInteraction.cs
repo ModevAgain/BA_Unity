@@ -102,7 +102,7 @@ public class BuildingInteraction : MonoBehaviour {
     public void StartBuildingProcess(int op)
     {
         _currentBuildingOp = op;
-        Debug.Log("op: " + op);
+        //Debug.Log("op: " + op);
         BuildingMenuActive = true;
 
         if (_buildingRoutine != null)
@@ -158,7 +158,8 @@ public class BuildingInteraction : MonoBehaviour {
                 }
 
                 _waitingForAction = true;
-                _navSurface.BuildNavMesh();
+                //_navSurface.BuildNavMesh();
+                _navSurface.UpdateNavMesh(_navSurface.navMeshData);
 
                 BUILDING_IN_PROGESS = false;
                 RessourceCheck();

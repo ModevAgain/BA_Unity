@@ -17,11 +17,15 @@ public class Platform : MonoBehaviour {
     public GameObject Platform2Object;
 
     private PlatformData _platformData;
+    [SerializeField]
     private Renderer _ren;
+    [SerializeField]
     private MeshFilter _meshFilter;
+    [SerializeField]
     private Collider _col;
     private List<ResourceObject> _resourcesInRange;
     private int _currentType;
+    [SerializeField]
     private WallScript[] _walls;
     private List<WallScript> _activeWalls; 
     private System.Random _rnd;
@@ -29,16 +33,17 @@ public class Platform : MonoBehaviour {
     private void Awake()
     {
         _platformData = DataPipe.instance.PlatformData;
-        _ren = GetComponent<MeshRenderer>();
-        _col = GetComponent<Collider>();
-        _meshFilter = GetComponent<MeshFilter>();
+        //_ren = GetComponent<MeshRenderer>();
+        //_col = GetComponent<Collider>();
+        //_meshFilter = GetComponent<MeshFilter>();
 
         if(!Activated)
             _ren.material = _platformData.HighlightMat;
 
         _resourcesInRange = new List<ResourceObject>();
 
-        _walls = GetComponentsInChildren<WallScript>();
+        if(_walls == null)
+            _walls = GetComponentsInChildren<WallScript>();
         _activeWalls = new List<WallScript>();
          _rnd = new System.Random();
     }

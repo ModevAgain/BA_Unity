@@ -8,15 +8,23 @@ public class WallScript : MonoBehaviour {
 
     public bool CurrentlyActive;
 
+    [SerializeField]
     private Collider _col;
+    [SerializeField]
     private Rigidbody _rigid;
+    [SerializeField]
     private Platform _selfPlatform;
 
 	
 	void Awake () {
-        _selfPlatform = GetComponentInParent<Platform>();
-        _col = GetComponent<Collider>();
-        _rigid = GetComponent<Rigidbody>();
+
+        if(_selfPlatform == null)
+            _selfPlatform = GetComponentInParent<Platform>();
+        if (_col == null)
+            _col = GetComponent<Collider>();
+        if (_rigid == null)
+            _rigid = GetComponent<Rigidbody>();
+        
 
         if (!ActiveFromStart)
         {

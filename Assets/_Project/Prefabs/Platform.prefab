@@ -481,6 +481,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveFromStart: 0
   CurrentlyActive: 0
+  _col: {fileID: 65485842652985430}
+  _rigid: {fileID: 54125930996867886}
+  _selfPlatform: {fileID: 114313643180223154}
 --- !u!114 &114313643180223154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -499,6 +502,14 @@ MonoBehaviour:
   ShouldGather: 0
   IsHQ: 0
   Platform2Object: {fileID: 1582858639642464}
+  _ren: {fileID: 23076628363170274}
+  _meshFilter: {fileID: 33115637042384064}
+  _col: {fileID: 65912966246726106}
+  _walls:
+  - {fileID: 114232375440669650}
+  - {fileID: 114732384426207382}
+  - {fileID: 114757685379558494}
+  - {fileID: 114732573154882840}
 --- !u!114 &114575726699709324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -561,6 +572,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveFromStart: 0
   CurrentlyActive: 0
+  _col: {fileID: 65303918289135814}
+  _rigid: {fileID: 54568722262920928}
+  _selfPlatform: {fileID: 114313643180223154}
 --- !u!114 &114732573154882840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -574,6 +588,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveFromStart: 0
   CurrentlyActive: 0
+  _col: {fileID: 65877427882720154}
+  _rigid: {fileID: 54911632884028592}
+  _selfPlatform: {fileID: 114313643180223154}
 --- !u!114 &114757685379558494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -587,6 +604,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ActiveFromStart: 0
   CurrentlyActive: 0
+  _col: {fileID: 65036852850662828}
+  _rigid: {fileID: 54287661469252740}
+  _selfPlatform: {fileID: 114313643180223154}
 --- !u!222 &222320319282811020
 CanvasRenderer:
   m_ObjectHideFlags: 1
