@@ -9,6 +9,7 @@ public class PlayerShooting : MonoBehaviour {
     [Header("References")]
     public BA_InputMapper InputMapper;
     public GameObject Projectile;
+    public ParticleSystem Particles;
 
     [Header("Data")]
     public float ProjectileDistance;
@@ -44,6 +45,8 @@ public class PlayerShooting : MonoBehaviour {
             yield break;
 
         //direction.y -= 50;
+
+        Particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
         _projectileInProgress = true;
 
@@ -81,9 +84,13 @@ public class PlayerShooting : MonoBehaviour {
             tempProjectileSpeed *= 2;
         }
 
+        Particles.transform.LookAt(tempProjectile.transform.position);
+        Particles.transform.rotation = Quaternion.Euler(0, Particles.transform.rotation.eulerAngles.y, 0);
+
         Debug.Log(tempProjectile.name);
         Destroy(tempProjectile);
 
+        Particles.Play();
 
         _projectileInProgress = false;
     }

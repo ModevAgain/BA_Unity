@@ -9,10 +9,11 @@ using System;
 
 public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
+    [Header("Input")]
     public BA_InputMapper InputMapper;
     public BA_ContextRegulator ContextRegulator;
 
-
+    [Header("References")]
     public CanvasGroup ActionGroup;
 
     public ActionUI Action_1;
@@ -22,6 +23,8 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     public Sprite BuildSprite;
     public Sprite AbortSprite;
+
+    public ParticleSystem Particles;
 
     private Image _img;
 
@@ -79,6 +82,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         
         if (!_active)
         {
+            Particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             ContextRegulator.Building_Activated();
             OnPointerDown();
             //_currentSelectedAction = Action_1;
@@ -88,6 +92,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         }
         else
         {
+            Particles.Play();
             _active = false;
             Build(false);
             ResetToNormal();
