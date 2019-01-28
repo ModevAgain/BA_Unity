@@ -30,6 +30,8 @@ public class StartManager : MonoBehaviour {
         minZ = PlaneCol.bounds.min.z;
 
         StartCoroutine(SpawnResource());
+
+        Cursor.visible = true;
     }
 
 

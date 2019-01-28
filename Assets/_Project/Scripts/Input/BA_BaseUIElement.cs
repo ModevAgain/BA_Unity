@@ -18,7 +18,7 @@ public class BA_BaseUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExi
     /// </summary>
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnClick " + gameObject.name);
+        //Debug.Log("OnClick " + gameObject.name);
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class BA_BaseUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExi
     /// </summary>
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("OnEnter " + gameObject.name);
+        //Debug.Log("OnEnter " + gameObject.name);
     }
 
     /// <summary>
@@ -34,6 +34,6 @@ public class BA_BaseUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExi
     /// </summary>
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("OnExit" + gameObject.name);
+        //Debug.Log("OnExit" + gameObject.name);
     }
 }

@@ -38,6 +38,7 @@ public class DirectionalArrowHandler : MonoBehaviour {
             Mapper.DirectionalInputMousePos += UpdateTargetPos;
         if (DataPipe.instance.GameData.Gamepad)
         {
+            Cursor.visible = false;
             _ren.enabled = false;
             Mapper.DirectionalInputRightStick += (v) => { _gamepad = true;  UpdateTargetPos(v); } ;
         }
