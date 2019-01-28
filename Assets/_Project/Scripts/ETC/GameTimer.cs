@@ -8,7 +8,7 @@ public class GameTimer : MonoBehaviour {
     public EndGameView EndView;
     public TextMeshProUGUI TimerTextM;
     public TextMeshProUGUI TimerTextS;
-    public float StartTime;
+    
 
     [Range(0,1)]
     public float UpdateTime;
@@ -20,7 +20,7 @@ public class GameTimer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        _time = StartTime;
+        _time = DataPipe.instance.GameData.GetGameDuration();
         StartCoroutine(TimerRoutine());
 
 	}

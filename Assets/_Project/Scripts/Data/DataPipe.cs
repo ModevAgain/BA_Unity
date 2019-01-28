@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class DataPipe : MonoBehaviour {
 
+    public GameData GameData;
     public PlatformData PlatformData;
     public GridManager GridManager;
     public ResourceManager ResourceManager;
@@ -21,9 +24,20 @@ public class DataPipe : MonoBehaviour {
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+
         if (instance == null)
             instance = this;
 
         GridManager.Setup();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            DOTween.KillAll();
+            SceneManager.LoadScene("Start");
+        }
     }
 }

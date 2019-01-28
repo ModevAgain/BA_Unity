@@ -103,6 +103,10 @@ namespace BA
             InputMapper.DirectionalInputRightStick -= ReceiveDirectionalInput;
 
             _instance = null;
+
+            ActionKey = null;
+            ActionKey2 = null;
+            ActionDirectional = null;
         }
 
         #endregion

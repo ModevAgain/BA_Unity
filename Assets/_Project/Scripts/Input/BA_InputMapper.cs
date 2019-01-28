@@ -43,6 +43,7 @@ namespace BA
         public InputDelegate ActionKey;
         public InputDelegateVector2 ActionKey_2;
         public InputDelegateVector2 DirectionalInputRightStick;
+        public InputDelegateVector2 DirectionalInputMousePos;
 
 
 
@@ -155,6 +156,8 @@ namespace BA
                 return;            
 
             _pointerPosition = vec;
+
+            DirectionalInputMousePos?.Invoke(_pointerPosition);
                       
         }
 
@@ -201,6 +204,10 @@ namespace BA
 
         }
 
+
+        float gamepadToScreenPoint_xLOCAL;
+        float gamepadToScreenPoint_yLOCAL;
+
         public void ReceiveInputFloat(float f, BA_InputType type)
         {
             if (!IsInputValid(type))
@@ -225,7 +232,13 @@ namespace BA
 
             MoveInputVector2(_gamepadLeft);
             if(_gamepadRight != Vector2.zero)
-                DirectionalInputRightStick(_gamepadRight);
+            {
+
+                gamepadToScreenPoint_xLOCAL = (Screen.width / 2) + Screen.width * _gamepadRight.x;
+                gamepadToScreenPoint_yLOCAL = (Screen.height / 2) + Screen.height * _gamepadRight.y;
+
+                DirectionalInputRightStick(new Vector2(gamepadToScreenPoint_xLOCAL,gamepadToScreenPoint_yLOCAL));
+            }
 
         }
 
@@ -401,6 +414,15 @@ namespace BA
 
             //Raycasting
             _raycastResults.Clear();
+
+            MoveInputVector2 = null;
+            MoveInputVector3 = null;
+            MouseInputUI = null;
+            TouchInputUI = null;
+            ActionKey = null;
+            ActionKey_2 = null;
+            DirectionalInputRightStick = null;
+            DirectionalInputMousePos = null;
         }
 
 

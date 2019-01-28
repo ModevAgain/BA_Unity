@@ -33,11 +33,15 @@ public class Platform : MonoBehaviour {
     private void Awake()
     {
         _platformData = DataPipe.instance.PlatformData;
-        //_ren = GetComponent<MeshRenderer>();
-        //_col = GetComponent<Collider>();
-        //_meshFilter = GetComponent<MeshFilter>();
 
-        if(!Activated)
+        if (_ren == null)
+            _ren = GetComponent<MeshRenderer>();
+        if (_col == null)
+            _col = GetComponent<Collider>();
+        if (_meshFilter == null)
+            _meshFilter = GetComponent<MeshFilter>();
+
+        if (!Activated)
             _ren.material = _platformData.HighlightMat;
 
         _resourcesInRange = new List<ResourceObject>();

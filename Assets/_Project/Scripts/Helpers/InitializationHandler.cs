@@ -26,7 +26,7 @@ public class InitializationHandler : MonoBehaviour {
 
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
         foreach (var item in _initializables)
         {

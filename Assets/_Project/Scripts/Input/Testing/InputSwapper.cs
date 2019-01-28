@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InputSwapper : MonoBehaviour {
 
+    public GameData GameData;
+
     public Toggle GamepadToggle;
     public Toggle MKToggle;
     public Toggle TouchToggle;
@@ -47,6 +49,8 @@ public class InputSwapper : MonoBehaviour {
 
         Mapper.LoadContexts(_groups);
 
+
+        GameData.Gamepad = active;
     }
     private void SwapInputMK(bool active)
     {
@@ -64,6 +68,8 @@ public class InputSwapper : MonoBehaviour {
         }
 
         Mapper.LoadContexts(_groups);
+
+        GameData.MK = active;
     }
     private void SwapInputTouch(bool active)
     {
@@ -81,6 +87,8 @@ public class InputSwapper : MonoBehaviour {
         }
 
         Mapper.LoadContexts(_groups);
+
+        GameData.Touch = active;
     }
 
 

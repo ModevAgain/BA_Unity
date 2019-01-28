@@ -37,6 +37,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
     private ResourceManager _resourceMan;
     private PlatformData _platformData;
+    private DirectionalArrowHandler _arrowHandler;
 
    
 
@@ -68,6 +69,8 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         BA_InputReceiverUI.Instance.ActionDirectional += ReceiveDirectionalInput;
         InputMapper.MoveInputVector3 += ReceivePlatformCommand;
         _builder.RessourceCheck = () => RessourceCheck();
+
+        _arrowHandler = FindObjectOfType<DirectionalArrowHandler>();
     }
 
     #region BA_Input
@@ -83,6 +86,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         if (!_active)
         {
             Particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            _arrowHandler.FadeOutAndBlock();
             ContextRegulator.Building_Activated();
             OnPointerDown();
             //_currentSelectedAction = Action_1;
@@ -93,6 +97,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         else
         {
             Particles.Play();
+            _arrowHandler.Unblock();
             _active = false;
             Build(false);
             ResetToNormal();

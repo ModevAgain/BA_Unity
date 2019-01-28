@@ -10,7 +10,7 @@ public class FPSDisplay : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
+        
     }
 
     public void Update()

@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StartManager : MonoBehaviour {
 
+    [Header("Data")]
+    public GameData GameData;
+    [Header("References")]
     public GameObject Resource1Object;
     public Collider PlaneCol;
 
@@ -66,6 +69,13 @@ public class StartManager : MonoBehaviour {
 
     public void StartGame()
     {
+        GameData.IsTest = false;
+        SceneManager.LoadScene("Main");
+    }
+
+    public void TestGame()
+    {
+        GameData.IsTest = true;
         SceneManager.LoadScene("Main");
     }
 }
