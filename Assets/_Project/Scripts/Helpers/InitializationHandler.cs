@@ -33,4 +33,12 @@ public class InitializationHandler : MonoBehaviour {
             item.Deinitialize();
         }
     }
+
+    private void OnApplicationQuit()
+    {
+        foreach (var item in _initializables)
+        {
+            item.Deinitialize();
+        }
+    }
 }
