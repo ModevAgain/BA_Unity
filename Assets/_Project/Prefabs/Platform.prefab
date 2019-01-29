@@ -542,7 +542,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b2fd90be79ba954cb5e7d210f559602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gatherTime: 6
+  gatherTime: 10
+  progressionImage: {fileID: 114119858536384784}
+  _platform: {fileID: 114313643180223154}
 --- !u!114 &114692580843891324
 MonoBehaviour:
   m_ObjectHideFlags: 1

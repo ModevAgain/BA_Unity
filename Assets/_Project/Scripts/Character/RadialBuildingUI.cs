@@ -129,9 +129,9 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             {
                 Build(true);
             }
-            else Debug.Log(hit.transform.name);
+            //else Debug.Log(hit.transform.name);
         }
-        else Debug.Log("Didnt hit platform");
+        //else Debug.Log("Didnt hit platform");
     }
 
     #endregion

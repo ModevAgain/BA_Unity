@@ -34,6 +34,7 @@ public class InputSwapper : MonoBehaviour {
 
     private void SwapInputGamepad(bool active)
     {
+        GameData.Gamepad = active;
         if (active)
         {
             if (_groups.Contains(BA.BA_Input.BA_InputGroup.GAMEPAD))
@@ -50,10 +51,10 @@ public class InputSwapper : MonoBehaviour {
         Mapper.LoadContexts(_groups);
 
 
-        GameData.Gamepad = active;
     }
     private void SwapInputMK(bool active)
     {
+        GameData.MK = active;
         if (active)
         {
             if (_groups.Contains(BA.BA_Input.BA_InputGroup.MOUSE_KEYBOARD))
@@ -69,10 +70,10 @@ public class InputSwapper : MonoBehaviour {
 
         Mapper.LoadContexts(_groups);
 
-        GameData.MK = active;
     }
     private void SwapInputTouch(bool active)
     {
+        GameData.Touch = active;
         if (active)
         {
             if (_groups.Contains(BA.BA_Input.BA_InputGroup.TOUCH))
@@ -88,7 +89,6 @@ public class InputSwapper : MonoBehaviour {
 
         Mapper.LoadContexts(_groups);
 
-        GameData.Touch = active;
     }
 
 

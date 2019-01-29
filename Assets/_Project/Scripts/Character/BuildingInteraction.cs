@@ -30,6 +30,8 @@ public class BuildingInteraction : MonoBehaviour {
 
     private RadialBuildingUI _radialBuildingUI;
 
+    private WaitForSeconds _waiter;
+
     private void Start()
     {
         _playerRefs = DataPipe.instance.PlayerReferences;
@@ -40,6 +42,8 @@ public class BuildingInteraction : MonoBehaviour {
 
         _navSurface = DataPipe.instance.NavMeshSurface;
         _navSurface.BuildNavMesh();
+
+        _waiter = new WaitForSeconds(0.2f);
     }
 
     public Platform GetCurrentPlatform()
@@ -137,7 +141,7 @@ public class BuildingInteraction : MonoBehaviour {
                 lastPos = _playerRefs.CurrentPlatform.transform.localPosition;
                 lastDir = _playerRefs.LookDirection;
 
-                yield return new WaitForSeconds(0.2f);
+                yield return _waiter;
 
 
             }

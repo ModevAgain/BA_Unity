@@ -12,6 +12,7 @@ public class DataPipe : MonoBehaviour {
     public PlatformData PlatformData;
     public GridManager GridManager;
     public ResourceManager ResourceManager;
+    public RessourceSpawner RessourceSpawner;
     public BuildingInteraction BuildingInteraction;
     public RadialBuildingUI BuildingUI;
 

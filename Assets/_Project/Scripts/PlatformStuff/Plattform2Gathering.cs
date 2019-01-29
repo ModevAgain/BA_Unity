@@ -8,18 +8,20 @@ public class Plattform2Gathering : MonoBehaviour {
 
     public float gatherTime = 6f;
     float activeGatherDuration = 0f;
+    [SerializeField]
     Image progressionImage;
     bool platformFinished = false;
     private RessourceSpawner _resSpawner;
+    [SerializeField]
     private Platform _platform;
+    private float currentFillAmount;
 
     private void Awake()
     {
-        progressionImage = GetComponentInChildren<Image>();
-        _resSpawner = FindObjectOfType<RessourceSpawner>();
-        _platform = GetComponentInParent<Platform>();
+        progressionImage = GetComponentInChildren<Image>();        
 
-        FindObjectOfType<NavMeshSurface>().BuildNavMesh();
+        _resSpawner = DataPipe.instance.RessourceSpawner;
+        DataPipe.instance.NavMeshSurface.UpdateNavMesh(DataPipe.instance.NavMeshSurface.navMeshData);
     }
 	
 	// Update is called once per frame
@@ -32,7 +34,7 @@ public class Plattform2Gathering : MonoBehaviour {
         {
             activeGatherDuration += Time.deltaTime;
 
-            var currentFillAmount = activeGatherDuration / gatherTime;
+            currentFillAmount = activeGatherDuration / gatherTime;
 
             progressionImage.fillAmount = currentFillAmount;
         }

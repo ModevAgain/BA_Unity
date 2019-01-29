@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class EndGameView : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class EndGameView : MonoBehaviour {
 
     public TextMeshProUGUI Thanks;
 
+    public CanvasGroup RestartCG;
     
 
 
@@ -31,16 +33,13 @@ public class EndGameView : MonoBehaviour {
         Plat2CG.DOFade(0, 0);
         Thanks.transform.DOScale(0, 0f);
         Thanks.DOFade(0, 0);
-
+        RestartCG.DOFade(0, 0);
+        RestartCG.blocksRaycasts = false;
 
 
     }
 	
-	// Update is called once per frame
-	void Update () {
 
-
-	}
 
     public void EndGame()
     {
@@ -71,5 +70,16 @@ public class EndGameView : MonoBehaviour {
 
         Thanks.DOFade(1, 0.3f).SetEase(Ease.Linear);
         Thanks.transform.DOScale(1, 0.4f).SetEase(Ease.OutElastic);
+
+        yield return new WaitForSeconds(2);
+
+        RestartCG.DOFade(1, 0.2f).OnComplete(() => RestartCG.blocksRaycasts = true);
+        
+    }
+
+    public void RestartGame()
+    {
+        DOTween.KillAll();
+        SceneManager.LoadScene("Start");
     }
 }
