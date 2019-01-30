@@ -32,6 +32,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     [SerializeField]
     private bool _active;
     private bool _selected;
+    [SerializeField]
     private ActionUI _currentSelectedAction;
     private int _buildingOp;
 
@@ -102,6 +103,7 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             Build(false);
             ResetToNormal();
             ContextRegulator.Building_Deactivated();
+            _currentSelectedAction = null;
         }
     }
 
@@ -172,12 +174,15 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
     }
     public void RessourceCheck()
     {
+
+        bool resetCurrentSelectedAction = false;
         if(_currentSelectedAction == Action_1 || _currentSelectedAction == null)
         {
             if (!_resourceMan.HasEnoughResource(_platformData.Platform1_Cost))
             {
                 Action_1.Hide();
-                _currentSelectedAction = null;
+                //_currentSelectedAction = null;
+                resetCurrentSelectedAction = true;
                 Build(false);
             }
         }
@@ -186,10 +191,13 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
             if (!_resourceMan.HasEnoughResource(_platformData.Platform2_Cost))
             {
                 Action_2.Hide();
-                _currentSelectedAction = null;
+                //_currentSelectedAction = null;
+                resetCurrentSelectedAction = true;
                 Build(false);
             }
         }
+        if (resetCurrentSelectedAction)
+            _currentSelectedAction = null;
     }
 
     public void ReceiveDirectionalInput(Vector2 input)
@@ -220,7 +228,8 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
         {
             //Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
             //Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
-            _currentSelectedAction = null;
+            //_currentSelectedAction = null;
+            //Debug.Log("angle: " + angle);
         }
     }
 
