@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079022402bf883c4c8db2e69142872c3, type: 3}
   m_Name: Touch_Build
   m_EditorClassIdentifier: 
-  Type: 2
+  ContextType: BUILD
   Group: 1
   AllowedInputs: 070000000800000009000000
+  NewContext: 

@@ -25,7 +25,7 @@ public class DataPipe : MonoBehaviour {
 
     private void Awake()
     {
-        Application.targetFrameRate = 60;
+        
 
         if (instance == null)
             instance = this;

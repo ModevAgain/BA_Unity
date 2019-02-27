@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BA;
+using InputSystem;
 using UnityEngine.AI;
 
 public class PlayerMovement : MonoBehaviour {
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour {
         
     }
 
-    private void MoveVector3(Vector3 inputPos)
+    public void MoveVector3(Vector3 inputPos)
     {
 
         if (_builder.BUILDING_IN_PROGESS)
@@ -81,6 +81,9 @@ public class PlayerMovement : MonoBehaviour {
             //Debug.Log("wanted to move while building");
             return;
         }
+
+        ///        Debug.Log("deltaTime: " + (Time.time - BA_RawInput.TickTime)); 
+               //Debug.Log("move: " + Time.time);
 
         _agent.enabled = true;
 

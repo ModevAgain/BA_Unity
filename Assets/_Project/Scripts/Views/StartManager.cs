@@ -22,6 +22,7 @@ public class StartManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        Application.targetFrameRate = 60;
 
         maxX = PlaneCol.bounds.max.x;
         minX = PlaneCol.bounds.min.x;

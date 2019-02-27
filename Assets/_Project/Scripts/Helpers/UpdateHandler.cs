@@ -6,32 +6,25 @@ using UnityEngine.EventSystems;
 
 public class UpdateHandler : MonoBehaviour {
 
-    private IUpdatable[] _updatables;
-    public bool Data;
+private IUpdatable[] _updatables;
     
-    void Awake ()
+void Awake ()
+{
+    List<ScriptableObject> objs = Resources.LoadAll<ScriptableObject>("").ToList();
+    List<IUpdatable> tempUpdatables = new List<IUpdatable>();
+    foreach (var item in objs)
     {
-
-        List<ScriptableObject> objs = Resources.LoadAll<ScriptableObject>("").ToList();
-        List<IUpdatable> tempUpdatables = new List<IUpdatable>();
-        foreach (var item in objs)
-        {
-            if ((item is IUpdatable))
-                tempUpdatables.Add(item as IUpdatable);
-        }
-
-        _updatables = tempUpdatables.ToArray();
+        if ((item is IUpdatable))
+            tempUpdatables.Add(item as IUpdatable);
     }
-	
-	
-	void Update () {
+    _updatables = tempUpdatables.ToArray();
+}
+		
+void Update () {
 
-        for (int i = 0; i < _updatables.Length; i++)
-        {
-            _updatables[i].Update();
-
-        }
-
-        //Data = (EventSystem.current.currentInputModule as BA.BA_InputModule).GetPointerData();
+    for (int i = 0; i < _updatables.Length; i++)
+    {
+        _updatables[i].Update();
     }
+}
 }

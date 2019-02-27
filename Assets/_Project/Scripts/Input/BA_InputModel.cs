@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BA
+namespace InputSystem
 {
     /// <summary>
     /// Input model for defined Keys & Actions
@@ -15,9 +15,6 @@ namespace BA
     [System.Serializable]
     public class BA_Input
     {
-
-        public BA_InputType Type;
-        public BA_InputGroup Group;
 
         public enum BA_InputType
         {

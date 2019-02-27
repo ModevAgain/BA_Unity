@@ -12,14 +12,14 @@ public class InputSwapper : MonoBehaviour {
     public Toggle MKToggle;
     public Toggle TouchToggle;
 
-    public BA.BA_InputMapper Mapper;
+    public InputSystem.BA_InputMapper Mapper;
 
-    private List<BA.BA_Input.BA_InputGroup> _groups;
+    private List<InputSystem.BA_Input.BA_InputGroup> _groups;
 
     // Use this for initialization
     void Start () {
 
-        _groups = new List<BA.BA_Input.BA_InputGroup>();
+        _groups = new List<InputSystem.BA_Input.BA_InputGroup>();
 
         GamepadToggle.onValueChanged.AddListener(SwapInputGamepad);
         MKToggle.onValueChanged.AddListener(SwapInputMK);
@@ -37,15 +37,15 @@ public class InputSwapper : MonoBehaviour {
         GameData.Gamepad = active;
         if (active)
         {
-            if (_groups.Contains(BA.BA_Input.BA_InputGroup.GAMEPAD))
+            if (_groups.Contains(InputSystem.BA_Input.BA_InputGroup.GAMEPAD))
                 return;
-            else _groups.Add(BA.BA_Input.BA_InputGroup.GAMEPAD);
+            else _groups.Add(InputSystem.BA_Input.BA_InputGroup.GAMEPAD);
         }
         else
         {
-            if (!_groups.Contains(BA.BA_Input.BA_InputGroup.GAMEPAD))
+            if (!_groups.Contains(InputSystem.BA_Input.BA_InputGroup.GAMEPAD))
                 return;
-            else _groups.Remove(BA.BA_Input.BA_InputGroup.GAMEPAD);
+            else _groups.Remove(InputSystem.BA_Input.BA_InputGroup.GAMEPAD);
         }
 
         Mapper.LoadContexts(_groups);
@@ -57,15 +57,15 @@ public class InputSwapper : MonoBehaviour {
         GameData.MK = active;
         if (active)
         {
-            if (_groups.Contains(BA.BA_Input.BA_InputGroup.MOUSE_KEYBOARD))
+            if (_groups.Contains(InputSystem.BA_Input.BA_InputGroup.MOUSE_KEYBOARD))
                 return;
-            else _groups.Add(BA.BA_Input.BA_InputGroup.MOUSE_KEYBOARD);
+            else _groups.Add(InputSystem.BA_Input.BA_InputGroup.MOUSE_KEYBOARD);
         }
         else
         {
-            if (!_groups.Contains(BA.BA_Input.BA_InputGroup.MOUSE_KEYBOARD))
+            if (!_groups.Contains(InputSystem.BA_Input.BA_InputGroup.MOUSE_KEYBOARD))
                 return;
-            else _groups.Remove(BA.BA_Input.BA_InputGroup.MOUSE_KEYBOARD);
+            else _groups.Remove(InputSystem.BA_Input.BA_InputGroup.MOUSE_KEYBOARD);
         }
 
         Mapper.LoadContexts(_groups);
@@ -76,15 +76,15 @@ public class InputSwapper : MonoBehaviour {
         GameData.Touch = active;
         if (active)
         {
-            if (_groups.Contains(BA.BA_Input.BA_InputGroup.TOUCH))
+            if (_groups.Contains(InputSystem.BA_Input.BA_InputGroup.TOUCH))
                 return;
-            else _groups.Add(BA.BA_Input.BA_InputGroup.TOUCH);
+            else _groups.Add(InputSystem.BA_Input.BA_InputGroup.TOUCH);
         }
         else
         {
-            if (!_groups.Contains(BA.BA_Input.BA_InputGroup.TOUCH))
+            if (!_groups.Contains(InputSystem.BA_Input.BA_InputGroup.TOUCH))
                 return;
-            else _groups.Remove(BA.BA_Input.BA_InputGroup.TOUCH);
+            else _groups.Remove(InputSystem.BA_Input.BA_InputGroup.TOUCH);
         }
 
         Mapper.LoadContexts(_groups);

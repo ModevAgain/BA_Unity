@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace BA
+namespace InputSystem
 {
 
     public class BA_InputModule : StandaloneInputModule

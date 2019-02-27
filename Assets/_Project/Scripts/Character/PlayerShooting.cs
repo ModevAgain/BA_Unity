@@ -1,4 +1,4 @@
-﻿using BA;
+﻿using InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +43,10 @@ public class PlayerShooting : MonoBehaviour {
 
         if (_buildingUI.IsActive())
             yield break;
+
+        Debug.Break();
+
+        yield return null;
 
         //direction.y -= 50;
 

@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static BA.BA_Input;
+using static InputSystem.BA_Input;
 
-namespace BA
+namespace InputSystem
 {
     /// <summary>
     /// 2nd level module
@@ -23,12 +23,14 @@ namespace BA
         [Header("Scene References")]
         private BA_InputModule _inputModule;
 
-        [Header("Input References")]
+        [Header("References")]
         public BA_RawInput RawInput;
+
+        [Header("Input Groups & Contexts")]
         public List<BA_InputContext> Contexts;
-
+        [Space]
         public List<BA_InputGroup> ValidInputGroups;
-
+        
         #region Input Delegates
 
         public delegate void InputDelegate();
@@ -49,7 +51,7 @@ namespace BA
 
         #endregion
 
-
+        [Space]
         [SerializeField]
         private List<BA_InputContext> _activeContexts;
 
@@ -61,9 +63,7 @@ namespace BA
         #endregion  
 
         private Vector2 _pointerPosition;
-        [SerializeField]        
-        private Vector2 _gamepadLeft;
-        [SerializeField]
+        private Vector2 _gamepadLeft;        
         private Vector2 _gamepadRight;
 
         private int _currentFingerID;
@@ -78,6 +78,8 @@ namespace BA
             if(type == BA_InputType.MOUSE_0_DOWN)
             {
 
+                //float timeT = Time.time;
+
                 int pointerID = -1;
 
                 _ped = _inputModule.GetLastPointerEventDataCustom(pointerID);
@@ -88,6 +90,10 @@ namespace BA
                 _raycastResults.Clear();
 
                 _gRaycaster.Raycast(_ped, _raycastResults);
+
+                //Debug.Log("raycast:" + (Time.time - timeT));
+
+                //Debug.Log("raycast end:" + Time.time);
 
                 //Move
                 if (_raycastResults.Count == 0)
@@ -266,9 +272,9 @@ namespace BA
             ValidInputGroups = validInputGroups;
         }
 
-        public void LoadContext(BA_InputGroup g, BA_InputContext.BA_ContextType t)
+        public void LoadContext(BA_InputGroup g, string t)
         {
-            BA_InputContext context = Contexts.Where((c) => c.Group == g && c.Type == t).FirstOrDefault();
+            BA_InputContext context = Contexts.Where((c) => c.Group == g && c.ContextType == t).FirstOrDefault();
 
             if (context == null)
                 return;
@@ -280,9 +286,9 @@ namespace BA
             _activeContexts.Add(context);
         }
 
-        public void UnloadContext(BA_InputGroup g, BA_InputContext.BA_ContextType t)
+        public void UnloadContext(BA_InputGroup g, string t)
         {
-            BA_InputContext context = Contexts.Where((c) => c.Group == g && c.Type == t).FirstOrDefault();
+            BA_InputContext context = Contexts.Where((c) => c.Group == g && c.ContextType == t).FirstOrDefault();
 
             if (context == null)
                 return;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BA
+namespace InputSystem
 {
     /// <summary>
     /// 1st Level Module
@@ -25,6 +25,7 @@ namespace BA
 
         #region Input Delegates
 
+        //Base
         public delegate void InputDelegate();
         public delegate void InputDelegateVector3(Vector3 v);
         public delegate void InputDelegateVectorSwipe(Vector2 start, Vector2 end);
@@ -73,6 +74,7 @@ namespace BA
 
         #endregion
 
+        public static float TickTime;
 
         #region Private Cached Values
 
@@ -91,9 +93,17 @@ namespace BA
 
             #region Get Mouse Input
             if (Input.GetMouseButtonDown(0))
+            {
+                //TickTime = Time.time;
+                //Debug.Log("raw" + Time.time);
                 Mouse_0_Down();
+            }
+
             if (Input.GetMouseButtonUp(0))
+            {                
                 Mouse_0_Up();
+                //DataPipe.instance.PlayerReferences.MainTransform.GetComponent<PlayerMovement>().MoveVector3(Input.mousePosition);
+            }
 
             Mouse_Position(Input.mousePosition);
             #endregion

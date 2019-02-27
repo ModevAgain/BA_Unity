@@ -5244,7 +5244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e20d400b6deeab24ca9c227a35c4389c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Data: 0
 --- !u!1 &216835402
 GameObject:
   m_ObjectHideFlags: 0
@@ -17747,6 +17746,7 @@ MonoBehaviour:
   AbortSprite: {fileID: 21300000, guid: 8984561988c928e498113724fb61bc83, type: 3}
   Particles: {fileID: 141188505}
   _active: 0
+  _currentSelectedAction: {fileID: 0}
 --- !u!114 &1235130301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20107,7 +20107,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1987528547
 RectTransform:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
-using BA;
+using InputSystem;
 using System;
 
 public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
@@ -207,29 +207,16 @@ public class RadialBuildingUI : BA_BaseUIElement/*, IPointerDownHandler*/ {
 
         float angle = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg;
 
-        //Debug.Log(angle);
-
         if (angle < 45 && angle > -90)
         {
-            //Action_1.OnPointerEnter(new PointerEventData(EventSystem.current));
-            //Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = Action_1;
             SelectAction();
             
         }
-        else if (angle < -90 || Mathf.Abs(angle) > (90))
+        else if (angle < -90 || Mathf.Abs(angle) > 90)
         {            
-            //Action_2.OnPointerEnter(new PointerEventData(EventSystem.current));
-            //Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
             _currentSelectedAction = Action_2;
             SelectAction();
-        }
-        else
-        {
-            //Action_2.OnPointerExit(new PointerEventData(EventSystem.current));
-            //Action_1.OnPointerExit(new PointerEventData(EventSystem.current));
-            //_currentSelectedAction = null;
-            //Debug.Log("angle: " + angle);
         }
     }
 

@@ -11,6 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079022402bf883c4c8db2e69142872c3, type: 3}
   m_Name: Mouse_Shooting
   m_EditorClassIdentifier: 
-  Type: 1
+  ContextType: SHOOT
   Group: 0
   AllowedInputs: 050000000600000002000000
+  NewContext: 

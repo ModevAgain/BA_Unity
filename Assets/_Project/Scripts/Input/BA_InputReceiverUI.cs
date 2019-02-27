@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 
-namespace BA
+namespace InputSystem
 {
     /// <summary>
     /// 3rd level module for UI interction
